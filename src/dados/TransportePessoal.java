@@ -7,6 +7,9 @@ public class TransportePessoal extends Transporte {
 		super(numero, nomeCliente, descricao, peso, latitudeOrigem, latitudeDestino, longitudeOrigem, longitudeDestino);
 		this.qtdPessoas = qtdPessoas;
 	}
+	public int getQtdPessoas() {
+		return qtdPessoas;
+	}
 	@Override
 	public double calculaCusto() {
 		return qtdPessoas*10;

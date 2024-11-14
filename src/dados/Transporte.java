@@ -63,6 +63,41 @@ public abstract class Transporte implements Armazenavel {
 		return numero;
 	}
 
+	/**
+	 * <p>Atualiza o Status do transporte</p>
+	 * @param status a ser atualizado
+	 */
+	public void atualizaStatus(Estado status){
+		if(situacao == Estado.PENDENTE){
+			situacao = status;
+		}
+		if(situacao == Estado.ALOCADO && status != Estado.PENDENTE){
+			situacao = status;
+		}
+	}
+
+	/**
+	 * <p>Situacao em que se encontra o transporte</p>
+	 * @return o estado do transporte
+	 */
+	public Estado getSituacao() {
+		return situacao;
+	}
+
+	/**
+	 * <p>Adiciona o drone que vai fazer o pedido</p>
+	 * @param drone a ser alocado
+	 */
+	public void adicionaDrone(Drone drone){
+		if(situacao == Estado.PENDENTE){
+			if(drone != null){
+				this.drone = drone;
+				atualizaStatus(Estado.ALOCADO);
+			}
+		}
+
+	}
+
 	@Override
 	public String geraArmazenavel() {
 		return String.format("%s;%s;%s;%s;%s;%s;%s;%s",numero,nomeCliente,descricao,peso,latitudeOrigem,latitudeOrigem,longitudeOrigem,longitudeOrigem);
