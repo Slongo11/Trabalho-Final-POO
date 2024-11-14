@@ -1,3 +1,9 @@
+package telas;
+
+import dados.Drone;
+import dados.DronePessoal;
+import dados.Frota;
+
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -14,7 +20,7 @@ import javax.swing.JTextField;
 
 
 
-public class ACMEDrone extends JFrame implements ActionListener {
+public class TelaCadastroDrone extends JFrame implements ActionListener {
 
     private JTextField campo;
     private JTextField campo2;
@@ -23,11 +29,11 @@ public class ACMEDrone extends JFrame implements ActionListener {
     private JTextArea area;
     private Frota frota;
 
-    public ACMEDrone() {
+    public TelaCadastroDrone(Frota f) {
         // Criação da janela
         super("ACME Drone Control");
         Font f_padrao = new Font("Arial", Font.BOLD, 12);
-        frota = new Frota();
+        frota = f;
 
         // Criação do painel mais externo
         JPanel painel_externo = new JPanel();

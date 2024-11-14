@@ -1,7 +1,6 @@
 package aplicacao;
 
 import dados.*;
-import telas.TelaCadastroTransporte;
 import telas.TelaPrincipal;
 
 import java.io.BufferedReader;
@@ -15,10 +14,10 @@ import java.util.*;
 
 public class ACMEAirDrones {
 	private final ListaTransporte listaTransporte;
-	private final ListaDrones listaDrones;
+	private final Frota frota;
 	public ACMEAirDrones(){
 		listaTransporte = new ListaTransporte();
-		listaDrones = new ListaDrones();
+		frota = new Frota();
 		carregaConteudo("arquivos/salva.csv");
 		new TelaPrincipal(this);
 	}
@@ -160,7 +159,7 @@ public class ACMEAirDrones {
 	 * @throws Exception por por informacoes incorretas
 	 */
 	public Drone buscaDrone(CategoriaCarga carga,double distancia, int pessoas) throws Exception{
-		return carga == CategoriaCarga.PESSOAS ? listaDrones.capacitado(carga, distancia, pessoas): listaDrones.capacitado(carga, distancia);
+		return carga == CategoriaCarga.PESSOAS ? frota.capacitado(carga, distancia, pessoas): frota.capacitado(carga, distancia);
 	}
 
 	/**
@@ -206,7 +205,7 @@ public class ACMEAirDrones {
 			throw new Exception("Não existe nenhum transporte pendente");
 		}
 		Queue<Transporte> novaQueue = new ArrayDeque();
-		List<Drone> listaDrone = listaDrones.getDrones();
+		List<Drone> listaDrone = frota.getDrones();
 
 		while(!pendente.isEmpty()){
 			Transporte transporte = pendente.remove();
