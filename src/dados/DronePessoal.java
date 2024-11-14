@@ -8,4 +8,9 @@ public class DronePessoal extends Drone {
 	public double calculaCustoKm() {
 		return 0;
 	}
+
+	@Override
+	public String geraArmazenavel() {
+		return "";
+	}
 }

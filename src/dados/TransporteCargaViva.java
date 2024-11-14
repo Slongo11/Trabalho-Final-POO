@@ -17,6 +17,10 @@ public class TransporteCargaViva extends Transporte {
 			custo+= 500;
 		return custo;
 	}
+	@Override
+	public String geraArmazenavel(){
+		return String.format("3;%s;%s;%s\n",super.geraArmazenavel(),temperaturaMinima,temperaturaMaxima);
+	}
 
 	@Override
 	public String toString(){

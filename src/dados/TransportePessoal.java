@@ -11,7 +11,10 @@ public class TransportePessoal extends Transporte {
 	public double calculaCusto() {
 		return qtdPessoas*10;
 	}
-
+	@Override
+	public String geraArmazenavel(){
+		return String.format("1;%s;%s\n",super.geraArmazenavel(),qtdPessoas);
+	}
 	public String toString() {
 		return String.format("""
 						--Pessoal--

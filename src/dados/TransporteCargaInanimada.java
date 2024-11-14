@@ -13,6 +13,10 @@ public class TransporteCargaInanimada extends Transporte {
 	}
 
 	@Override
+	public String geraArmazenavel(){
+		return String.format("2;%s;%s\n",super.geraArmazenavel(),cargaPerigosa);
+	}
+	@Override
 	public String toString(){
 
 		return String.format("""

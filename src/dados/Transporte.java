@@ -1,25 +1,16 @@
 package dados;
 
-public abstract class Transporte {
+public abstract class Transporte implements Armazenavel {
 
 	private int numero;
-
 	private String nomeCliente;
-
 	private String descricao;
-
 	private double peso;
-
 	private double latitudeOrigem;
-
 	private double latitudeDestino;
-
 	private double longitudeOrigem;
-
 	private double longitudeDestino;
-
 	private Estado situacao;
-
 	private Drone drone;
 
 	public Transporte(int numero, String nomeCliente, String descricao, double peso, double latitudeOrigem, double latitudeDestino, double longitudeOrigem, double longitudeDestino) {
@@ -68,10 +59,15 @@ public abstract class Transporte {
 		return deg * Math.PI / 180.0;
 	}
 
-
 	public int getNumero() {
 		return numero;
 	}
+
+	@Override
+	public String geraArmazenavel() {
+		return String.format("%s;%s;%s;%s;%s;%s;%s;%s",numero,nomeCliente,descricao,peso,latitudeOrigem,latitudeOrigem,longitudeOrigem,longitudeOrigem);
+	}
+
 	@Override
 	public String toString(){
 		return String.format("""

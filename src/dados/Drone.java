@@ -2,7 +2,7 @@ package dados;
 
 import java.util.Collection;
 
-public abstract class Drone {
+public abstract class Drone implements Armazenavel {
 
 	private int codigo;
 

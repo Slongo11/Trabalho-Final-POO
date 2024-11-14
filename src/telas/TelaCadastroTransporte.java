@@ -114,6 +114,7 @@ public class TelaCadastroTransporte extends JFrame implements ActionListener {
 			resultado.setText("");
 		}
 		else if (e.getSource() == fim) {
+			app.armazenaConteudo();
 			System.exit(0); // fecha a aplicação
 		}
 		else if (e.getSource() == campo1) {

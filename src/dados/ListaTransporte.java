@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Queue;
 
-public class ListaTransporte {
+public class ListaTransporte implements Agrupavel {
 	private ArrayList<Transporte> listaTransporte;
 	private Queue<Transporte> filaDeTransporte;
 	public ListaTransporte() {
@@ -14,8 +14,9 @@ public class ListaTransporte {
 
 	/**
 	 * <p>Cadastra um transporte </p>
-	 * @param t transporte a ser cadastrado
-	 * @return
+	 *  @param t transporte a ser cadastrado
+	 * 	@return verdadeiro se for bem sucedido
+	 * @throws Exception que não foi possível cadastrar
 	 */
 	public boolean cadastraTransporte(Transporte t) throws Exception{
 		if(!(listaTransporte.stream().allMatch(n -> n.getNumero() != t.getNumero()))) {
@@ -24,6 +25,22 @@ public class ListaTransporte {
 		filaDeTransporte.add(t);
 		return listaTransporte.add(t);
 	}
+
+	@Override
+	public String getCsvFormat() {
+		StringBuilder str = new StringBuilder();
+		for (Transporte t : listaTransporte) {
+			if(t instanceof TransporteCargaInanimada){
+				str.append(t.geraArmazenavel());
+			}else if(t instanceof TransportePessoal){
+				str.append(t.geraArmazenavel());
+			}else{
+				str.append(t.geraArmazenavel());
+			}
+		}
+		return str.toString();
+	}
+
 	@Override
 	public String toString(){
 		if(listaTransporte.isEmpty()) {
