@@ -14,4 +14,8 @@ public abstract class Drone implements Armazenavel {
 
 	public abstract double calculaCustoKm();
 
+	public double getAutonomia() {
+		return autonomia;
+	}
+
 }

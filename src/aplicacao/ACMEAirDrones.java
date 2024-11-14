@@ -2,6 +2,7 @@ package aplicacao;
 
 import dados.*;
 import telas.TelaCadastroTransporte;
+import telas.TelaPrincipal;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,16 +11,16 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ACMEAirDrones {
 	private final ListaTransporte listaTransporte;
+	private final ListaDrones listaDrones;
 	public ACMEAirDrones(){
 		listaTransporte = new ListaTransporte();
-		carregaConteudo("arquivos/salva.txt");
-		new TelaCadastroTransporte(this);
+		listaDrones = new ListaDrones();
+		carregaConteudo("arquivos/salva.csv");
+		new TelaPrincipal(this);
 	}
 
 	/**
@@ -141,10 +142,95 @@ public class ACMEAirDrones {
 	}
 
 	/**
+	 * <p>Chama a funcao para achar o transporte</p>
+	 * @param numero a ser procurado
+	 * @return o Transporte achado com aquele numero ou null caso não ache
+	 *
+	 */
+	public Transporte buscaTransporte(int numero){
+		return listaTransporte.buscaPorNumero(numero);
+	}
+
+	/**
+	 * <p>Busca o drone de com os parametros especifidoas da carga </p>
+	 * @param carga tipo a ser buscado
+	 * @param distancia percorida pelo drone
+	 * @param pessoas caso exista a quantidade
+	 * @return o Drone
+	 * @throws Exception por por informacoes incorretas
+	 */
+	public Drone buscaDrone(CategoriaCarga carga,double distancia, int pessoas) throws Exception{
+		return carga == CategoriaCarga.PESSOAS ? listaDrones.capacitado(carga, distancia, pessoas): listaDrones.capacitado(carga, distancia);
+	}
+
+	/**
+	 * <p>Altera a situacao de um unico Transporte </p>
+	 * @param t o transporte a ser alterado
+	 * @return a situacao bem sucedida
+	 * @throws Exception informa
+	 */
+	public String alteraSituacaoTrasporte(Transporte t, Estado atulizar) throws Exception{
+		Estado estado = t.getSituacao();
+		if(estado == Estado.PENDENTE && atulizar != Estado.PENDENTE){
+			if(atulizar == Estado.ALOCADO){
+				Drone d;
+				if(t instanceof TransportePessoal) {
+					d = buscaDrone(CategoriaCarga.PESSOAS, t.calculaKm(),((TransportePessoal)t).getQtdPessoas());
+				}else if(t instanceof TransporteCargaInanimada) {
+					d = buscaDrone(CategoriaCarga.CARGA_INANIMADA, t.calculaKm(), 0);
+				}else{
+					d = buscaDrone(CategoriaCarga.CARGA_VIVA, t.calculaKm(), 0);
+				}
+				if(d == null)
+					throw new Exception("Nenhum drone encontrado.");
+				t.adicionaDrone(d);
+			} else{
+				t.atualizaStatus(atulizar);
+			}
+			return "Status atualizado para: " + atulizar.toString();
+		}
+		if(estado == Estado.ALOCADO && atulizar != Estado.ALOCADO){
+			t.atualizaStatus(atulizar);
+			return"Atualizado com sucesso para: " + atulizar.toString();
+		}
+		throw new Exception("Não pode ser alterado com este situacao ["+ atulizar.toString() + "] logo que é " + estado.toString());
+	}
+
+	/**
+	 * <p>Acha algum drone a ser alocado aos transporte</p>
+	 * @throws Exception joga uma excecao para lista de transporte vazia
+	 */
+	public void processaTransportesPendentes() throws Exception{
+		Queue<Transporte> pendente =  listaTransporte.getFilaDeTransporte();
+		if(pendente.isEmpty()){
+			throw new Exception("Não existe nenhum transporte pendente");
+		}
+		Queue<Transporte> novaQueue = new ArrayDeque();
+		List<Drone> listaDrone = listaDrones.getDrones();
+
+		while(!pendente.isEmpty()){
+			Transporte transporte = pendente.remove();
+			double distancia = transporte.calculaKm();
+
+			for(Drone d : listaDrone){
+				if(d.getAutonomia() >= distancia){
+					transporte.adicionaDrone(d);
+					break;
+				}
+			}
+			if(transporte.getSituacao() == Estado.PENDENTE){
+				novaQueue.add(transporte);
+			}
+
+		}
+		pendente.addAll(novaQueue);
+	}
+
+	/**
 	 * <p>Armazena em um arquivo tipo CSV</p>
 	 */
 	public void armazenaConteudo(){
-		String local = "arquivos/salva.txt";
+		String local = "arquivos/salva.csv";
 		Path path = Paths.get(local);
 		try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path, Charset.defaultCharset())))
 		{

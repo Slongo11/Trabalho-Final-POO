@@ -7,6 +7,9 @@ public class TransporteCargaInanimada extends Transporte {
 		super(numero, nomeCliente, descricao, peso, latitudeOrigem, latitudeDestino, longitudeOrigem, longitudeDestino);
 		this.cargaPerigosa = cargaPerigosa;
 	}
+	public boolean eCargaPerigosa() {
+		return cargaPerigosa;
+	}
 	@Override
 	public double calculaCusto() {
 		return cargaPerigosa? 500 : 0;

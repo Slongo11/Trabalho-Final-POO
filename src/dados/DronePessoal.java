@@ -9,6 +9,10 @@ public class DronePessoal extends Drone {
 		return 0;
 	}
 
+	public int getQtdMaxPessoas() {
+		return qtdMaxPessoas;
+	}
+
 	@Override
 	public String geraArmazenavel() {
 		return "";

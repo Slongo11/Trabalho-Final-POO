@@ -25,6 +25,23 @@ public class ListaTransporte implements Agrupavel {
 		filaDeTransporte.add(t);
 		return listaTransporte.add(t);
 	}
+	public Queue<Transporte> getFilaDeTransporte() {
+		return filaDeTransporte;
+	}
+
+	/**
+	 * <p>Busca o transporte pelo numero cadastrado.</p>
+	 * @param numero a ser procurado.
+	 * @return o transporte com o numero ou null caso nao encontrar.
+	 */
+	public Transporte buscaPorNumero(int numero){
+		for(Transporte t : listaTransporte){
+			if(t.getNumero() == numero){
+				return t;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public String getCsvFormat() {
