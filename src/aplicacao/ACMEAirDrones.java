@@ -131,6 +131,17 @@ public class ACMEAirDrones {
 
 		return "Não foi possivel cadastrar o transporte código repetido";
 	}
+//  TODO IMPLMENTAR
+	public boolean cadastrarDrone(Drone d){
+		return frota.adicionarDrone(d);
+	}
+	/**
+	 * <p>Mostra as informacoes da lista de transporte</p>
+	 * @return toda lista dos drones cadastrados cadastrados.
+	 */
+	public String mostraInfoDroneDrone(){
+		return frota.listarDrones();
+	}
 
 	/**
 	 * <p>Mostra as informacoes da lista de transporte</p>

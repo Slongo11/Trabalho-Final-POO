@@ -7,11 +7,14 @@ public class Frota {
 	public Frota() {
 		drones = new ArrayList<>();
 	}
-
+	/**
+	 * <p>Adiciona drones</p>
+	 * @param drone o drone
+	 * @return caso for bem sucedido retorna vedaddeiro
+	 */
 	public boolean adicionarDrone(Drone drone) {
 		for (Drone d : drones) {
 			if (d.getCodigo() == drone.getCodigo()) {
-				System.out.println("Drone já cadastrado");
 				return false;
 			}
 		}
@@ -32,22 +35,23 @@ public class Frota {
 		}
 	}
 
+	/**
+	 * <p>Lista todos os drones</p>
+	 * @return uma string listando os drones
+	 */
 	public String listarDrones() {
-		String lista = "";
+		StringBuilder sb = new StringBuilder();
 		for (Drone d : drones) {
-			lista += d.toString() + "\n";
+			sb.append(d.toString());
+			sb.append("\n");
 		}
-		return lista;
+		return sb.toString();
 	}
 
 	/**
-	 * Adiciona drones
-	 * @param drone o drone
-	 * @return caso adicione
+	 * <p>Copia dos drones a serem usados</p>
+	 * @return a lista de drones
 	 */
-	public boolean adicionarDrone(Drone drone) {
-		return drones.add(drone);
-	}
 	public ArrayList<Drone> getDrones() {
 
 		return (ArrayList<dados.Drone>) drones.clone();

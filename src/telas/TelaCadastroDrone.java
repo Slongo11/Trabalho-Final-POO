@@ -1,5 +1,6 @@
 package telas;
 
+import aplicacao.ACMEAirDrones;
 import dados.Drone;
 import dados.DronePessoal;
 import dados.Frota;
@@ -27,13 +28,13 @@ public class TelaCadastroDrone extends JFrame implements ActionListener {
     private JTextField campo3;
     private JTextField campo4;
     private JTextArea area;
-    private Frota frota;
+    private ACMEAirDrones app;
 
-    public TelaCadastroDrone(Frota f) {
+    public TelaCadastroDrone(ACMEAirDrones app) {
         // Criação da janela
         super("ACME Drone Control");
         Font f_padrao = new Font("Arial", Font.BOLD, 12);
-        frota = f;
+        this.app = app;
 
         // Criação do painel mais externo
         JPanel painel_externo = new JPanel();
@@ -134,7 +135,7 @@ public class TelaCadastroDrone extends JFrame implements ActionListener {
                     double aut = Double.parseDouble(campo3.getText());
                     int qnt = Integer.parseInt(campo4.getText());
                     Drone drone = new DronePessoal(cod, custo, aut, qnt);
-                    if(frota.adicionarDrone(drone)){
+                    if(app.cadastrarDrone(drone)){
                         area.setText("Drone cadastrado com sucesso!");
                     } else {
                         area.setText("Drone já cadastrado com esse código.");
@@ -153,7 +154,7 @@ public class TelaCadastroDrone extends JFrame implements ActionListener {
             }
 
             case "Listar" -> // Exemplo: Atualiza a área de texto com a lista de drones
-                area.setText(frota.listarDrones());
+                area.setText(app.mostraInfoDroneDrone());
 
             default -> {
             }

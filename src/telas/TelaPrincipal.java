@@ -48,6 +48,7 @@ public class TelaPrincipal extends JFrame implements ActionListener {
 		limparArea.addActionListener(this);
 		cadastrarT.addActionListener(this);
 		processaTransportes.addActionListener(this);
+		cadastrarD.addActionListener(this);
 		setVisible(true); // torna visivel a tela
 
 	}
@@ -126,6 +127,8 @@ public class TelaPrincipal extends JFrame implements ActionListener {
 			}
 			else if (e.getSource() == processaTransportes) {
 				app.processaTransportesPendentes();
+			}else if (e.getSource() == cadastrarD) {
+				new TelaCadastroDrone(app);
 			}
 		}catch (Exception e1) {
 			//TODO COLOCAR UMA MENSAGEM BONITA COMO UM POP UP
