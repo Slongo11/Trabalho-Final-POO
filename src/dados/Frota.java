@@ -1,7 +1,7 @@
 package dados;
 import java.util.*;
 
-public class Frota {
+public class Frota implements Agrupavel{
 	private ArrayList<Drone> drones;
 
 	public Frota() {
@@ -133,5 +133,13 @@ public class Frota {
 		throw new Exception("Nenhum drone encontrado");
 	}
 
-
+	@Override
+	public String getCsvFormat() {
+		StringBuilder sb = new StringBuilder();
+		for (Drone drone : drones) {
+			sb.append(drone.geraArmazenavel());
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
 }

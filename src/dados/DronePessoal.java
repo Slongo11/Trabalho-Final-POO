@@ -14,7 +14,7 @@ public class DronePessoal extends Drone {
 	}
 	@Override
 	public String geraArmazenavel() {
-		return "";
+		return String.format("%s;%s", super.geraArmazenavel(),qtdMaxPessoas);
 	}
 
 	@Override

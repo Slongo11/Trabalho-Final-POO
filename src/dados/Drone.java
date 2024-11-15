@@ -2,7 +2,7 @@ package dados;
 
 import java.util.Collection;
 
-public abstract class Drone implements Armazenavel {
+public abstract class Drone implements Armazenavel{
 	private int codigo;
 	private double custoFixo;
 	private double autonomia;
@@ -25,5 +25,8 @@ public abstract class Drone implements Armazenavel {
 		return custoFixo;
 	}
 
-
+	@Override
+	public String geraArmazenavel() {
+		return String.format("%s;%s;%s",codigo,custoFixo,autonomia);
+	}
 }

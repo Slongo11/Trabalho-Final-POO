@@ -18,8 +18,15 @@ public class ACMEAirDrones {
 	public ACMEAirDrones(){
 		listaTransporte = new ListaTransporte();
 		frota = new Frota();
-		carregaConteudo("arquivos/salva.csv");
+
 		new TelaPrincipal(this);
+	}
+
+	/**
+	 * <p>Executa a aplicacao</p>
+	 */
+	public void executar(){
+		carregaConteudo("arquivos/salva.csv");
 	}
 
 	/**
@@ -236,6 +243,10 @@ public class ACMEAirDrones {
 		pendente.addAll(novaQueue);
 	}
 
+	public void leInfoDrone(ArrayList<String> informacoes){
+		//TODO TERMINAR ESSE METODO
+	}
+
 	/**
 	 * <p>Armazena em um arquivo tipo CSV</p>
 	 */
@@ -245,6 +256,7 @@ public class ACMEAirDrones {
 		try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path, Charset.defaultCharset())))
 		{
 			writer.print(listaTransporte.getCsvFormat());
+			writer.println("-1\n" + frota.getCsvFormat());
 		}catch(Exception e){
 			System.err.println(e);
 			System.err.println("Erro ao escrever o arquivo");
@@ -259,6 +271,7 @@ public class ACMEAirDrones {
 	private void carregaConteudo(String local){
 		ArrayList<String> info = new ArrayList<>();
 		Path path = Paths.get(local);
+		boolean verifica = false;
 		try(BufferedReader reader = new BufferedReader(Files.newBufferedReader(path, Charset.defaultCharset()))){
 			String linha = null;
 			while ((linha = reader.readLine()) != null){
@@ -266,9 +279,16 @@ public class ACMEAirDrones {
 
 				while(sc.hasNext()){
 					info.add(sc.next());
-
 				}
-				leInfoTransporte(info);
+				if(info.getFirst().equals("-1")){
+					verifica = true;
+				}
+
+				if(!verifica) {
+					leInfoTransporte(info);
+				}else {
+					leInfoDrone(info);
+				}
 				info.clear();
 			}
 		}catch (IOException e){

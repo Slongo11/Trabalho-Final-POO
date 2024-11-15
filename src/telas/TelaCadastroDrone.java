@@ -126,7 +126,10 @@ public class TelaCadastroDrone extends JFrame implements ActionListener {
         String comando = e.getActionCommand();
 
         switch (comando) {
-            case "Sair" -> System.exit(0);
+            case "Sair" -> {
+                app.armazenaConteudo();
+                System.exit(0);
+            }
                 
             case "Cadastrar" -> {
                 try {
