@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class TelaCadastroTransporte extends JFrame implements ActionListener {
+public class TelaCadastroTransporte extends JDialog implements ActionListener {
 	/*
 	Cadastrar novo transporte (solicita e cadastra os dados de um pedido de
 	transporte. [Se o número do transporte já existir, não o cadastra e mostra uma
@@ -58,7 +58,6 @@ public class TelaCadastroTransporte extends JFrame implements ActionListener {
 		painelPrincipal.add(geraPainelEsquerda());
 		painelPrincipal.add(geraPainelDireita());
 		getContentPane().add(painelPrincipal); // adiciona a tela principal a ser mostrada
-		setDefaultCloseOperation(EXIT_ON_CLOSE);// saida do X da interface
 
 		//botoes a serem esperados alguma acao
 		salvar.addActionListener(this);
@@ -67,7 +66,7 @@ public class TelaCadastroTransporte extends JFrame implements ActionListener {
 		fim.addActionListener(this);
 		limparArea.addActionListener(this);
 		campo1.addActionListener(this);
-
+		this.setModal(true);
 		setVisible(true); // torna visivel a tela
 	}
 
@@ -114,8 +113,7 @@ public class TelaCadastroTransporte extends JFrame implements ActionListener {
 			resultado.setText("");
 		}
 		else if (e.getSource() == fim) {
-			app.armazenaConteudo();
-			System.exit(0); // fecha a aplicação
+			this.setVisible(false);
 		}
 		else if (e.getSource() == campo1) {
 			atualizaCapos();
@@ -310,7 +308,7 @@ public class TelaCadastroTransporte extends JFrame implements ActionListener {
 		botoes2.add(limparArea);
 		painelDireita.add(botoes2);
 
-		fim = new JButton("Finaliza");
+		fim = new JButton("Voltar");
 		fim.setSize(100,50);
 		FlowLayout b3 = new FlowLayout(FlowLayout.RIGHT,10,130);
 		JPanel botoes3 = new JPanel();

@@ -10,18 +10,10 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 
-
-public class TelaCadastroDrone extends JFrame implements ActionListener {
+public class TelaCadastroDrone extends JDialog implements ActionListener {
 
     private JTextField campo;
     private JTextField campo2;
@@ -32,7 +24,8 @@ public class TelaCadastroDrone extends JFrame implements ActionListener {
 
     public TelaCadastroDrone(ACMEAirDrones app) {
         // Criação da janela
-        super("ACME Drone Control");
+        super();
+        setTitle("ACME Drone Control");
         Font f_padrao = new Font("Arial", Font.BOLD, 12);
         this.app = app;
 
@@ -96,7 +89,7 @@ public class TelaCadastroDrone extends JFrame implements ActionListener {
         JButton cadastrar = new JButton("Cadastrar");
         JButton limpar = new JButton("Limpar");
         JButton listar = new JButton("Listar");
-        JButton sair = new JButton("Sair");
+        JButton sair = new JButton("Voltar");
         
         // Adiciona eventos
         cadastrar.addActionListener(this);
@@ -116,8 +109,8 @@ public class TelaCadastroDrone extends JFrame implements ActionListener {
 
         // Configurações da janela
         getContentPane().add(painel_externo);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 600);
+        this.setModal(true);
         setVisible(true);
     }
 
@@ -126,9 +119,8 @@ public class TelaCadastroDrone extends JFrame implements ActionListener {
         String comando = e.getActionCommand();
 
         switch (comando) {
-            case "Sair" -> {
-                app.armazenaConteudo();
-                System.exit(0);
+            case "Voltar" -> {
+                this.setVisible(false);
             }
                 
             case "Cadastrar" -> {

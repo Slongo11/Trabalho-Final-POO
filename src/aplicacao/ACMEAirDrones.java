@@ -147,7 +147,7 @@ public class ACMEAirDrones {
 	 * @return toda lista dos drones cadastrados cadastrados.
 	 */
 	public String mostraInfoDroneDrone(){
-		return frota.listarDrones();
+		return frota.toString();
 	}
 
 	/**
@@ -245,6 +245,35 @@ public class ACMEAirDrones {
 
 	public void leInfoDrone(ArrayList<String> informacoes){
 		//TODO TERMINAR ESSE METODO
+		//1-Pessoal, 2-Carga inanimada, 3-Carga viva
+		Drone d = null;
+		String info = informacoes.get(0);
+		int tipo = Integer.parseInt(info);
+		info = informacoes.get(1);
+		int codigo = Integer.parseInt(info);
+		info = informacoes.get(2);
+		double custo = Double.parseDouble(info);
+		info = informacoes.get(3);
+		double autonomia = Double.parseDouble(info);
+		if(tipo == 1){
+			info = informacoes.get(4);
+			int qtdPessoas = Integer.parseInt(info);
+			d = new DronePessoal(codigo, custo, autonomia, qtdPessoas);
+		}else if(tipo == 2){
+			info = informacoes.get(4);
+			double peso = Double.parseDouble(info);
+			info = informacoes.get(5);
+			boolean protecao = info.equals("true");
+			d = new DroneCargaInanimada(codigo, custo, autonomia, peso, protecao);
+		}else if(tipo == 3){
+			info = informacoes.get(4);
+			double peso = Double.parseDouble(info);
+			info = informacoes.get(5);
+			boolean protecao = info.equals("true");
+			d = new DroneCargaViva(codigo,custo, autonomia, peso, protecao);
+		}
+		cadastrarDrone(d);
+
 	}
 
 	/**
@@ -280,22 +309,24 @@ public class ACMEAirDrones {
 				while(sc.hasNext()){
 					info.add(sc.next());
 				}
-				if(info.getFirst().equals("-1")){
-					verifica = true;
+				if(!info.isEmpty()){
+					if( info.getFirst().equals("-1")){
+						verifica = true;
+					}
+					if(!verifica) {
+						leInfoTransporte(info);
+					}else{
+						if(!info.getFirst().equals("-1"))
+							leInfoDrone(info);
+					}
+						info.clear();
 				}
-
-				if(!verifica) {
-					leInfoTransporte(info);
-				}else {
-					leInfoDrone(info);
-				}
-				info.clear();
 			}
 		}catch (IOException e){
 			System.out.println(e.getMessage());
 		}
 		catch(Exception e){
-			System.err.println(e);
+			System.err.println(e.getMessage());
 			System.err.println("Erro ao cadastra informacao");
 		}
 	}

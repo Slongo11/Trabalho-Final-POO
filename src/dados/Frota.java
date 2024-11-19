@@ -35,11 +35,8 @@ public class Frota implements Agrupavel{
 		}
 	}
 
-	/**
-	 * <p>Lista todos os drones</p>
-	 * @return uma string listando os drones
-	 */
-	public String listarDrones() {
+	@Override
+	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (Drone d : drones) {
 			sb.append(d.toString());
