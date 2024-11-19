@@ -15,11 +15,15 @@ public class DroneCargaInanimada extends DroneCarga {
 	}
 	@Override
 	public double calculaCustoKm() {
-		return 0;
+		return getCustoFixo() + (protecao ? 10:5);
 	}
 
 	@Override
 	public String geraArmazenavel() {
 		return "";
+	}
+	@Override
+	public String toString() {
+		return "\nDrone Carga Inanimada\n"+ super.toString() + "Protegido: " + (protecao?"Tem proteção":"Sem proteção");
 	}
 }

@@ -78,7 +78,7 @@ public class FormCadastroDroneCarga implements ActionListener {
 				if(app.cadastrarDrone(d)){
 					resultado.setText("Cadstrado com sucesso!");
 				}else{
-					resultado.setText("Não foi possível cadastrar");
+					resultado.setText("Não foi possível cadastrar código existente do drone");
 				}
 			}else if (e.getSource() == voltarButton) {
 				telaCadastroDroneCarga.setVisible(false);

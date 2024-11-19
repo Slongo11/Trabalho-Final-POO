@@ -37,12 +37,20 @@ public class Frota implements Agrupavel{
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		for (Drone d : drones) {
-			sb.append(d.toString());
-			sb.append("\n");
+		if(drones.isEmpty()) {
+			return "Nada cadastrado.";
 		}
-		return sb.toString();
+		StringBuilder str = new StringBuilder("========ListaDrones=======\n");
+		boolean add= false;
+		for(Drone d : drones) {
+			if(add) {
+				str.append("---------------------------\n");
+			}
+			str.append(d.toString()).append("\n");
+			add= true;
+		}
+		str.append("=========================\n");
+		return str.toString();
 	}
 
 	/**
@@ -63,6 +71,7 @@ public class Frota implements Agrupavel{
 		for (Drone d : drones) {
 			if(d instanceof DronePessoal){
 				sb.append(d.toString());
+				sb.append("\n");
 			}
 		}
 		return sb.toString();
@@ -76,6 +85,7 @@ public class Frota implements Agrupavel{
 		for (Drone d : drones) {
 			if(d instanceof DroneCarga){
 				sb.append(d.toString());
+				sb.append("\n");
 			}
 		}
 		return sb.toString();

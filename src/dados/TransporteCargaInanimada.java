@@ -10,9 +10,13 @@ public class TransporteCargaInanimada extends Transporte {
 	public boolean eCargaPerigosa() {
 		return cargaPerigosa;
 	}
+
 	@Override
 	public double calculaCusto() {
-		return cargaPerigosa? 500 : 0;
+		Drone d = getDrone();
+		if(d != null)
+			return d.calculaCustoKm()*calculaKm() + (cargaPerigosa? 500 : 0);
+		return 0;
 	}
 
 	@Override
@@ -25,6 +29,7 @@ public class TransporteCargaInanimada extends Transporte {
 		return String.format("""
 						--Carga Inanimada--
 						%stipo: %s
-						""",super.toString(),cargaPerigosa ? "Perigosa":"Não Perigosa");
+						Valor do Transporte: %.2f
+						""",super.toString(),cargaPerigosa ? "Perigosa":"Não Perigosa",calculaCusto());
 	}
 }

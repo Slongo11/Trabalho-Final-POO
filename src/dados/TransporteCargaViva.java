@@ -15,8 +15,12 @@ public class TransporteCargaViva extends Transporte {
 	public double calculaCusto() {
 		int custo = 0;
 		if(temperaturaMaxima - temperaturaMinima > 10)
-			custo+= 500;
-		return custo;
+			custo+= 1000;
+		Drone d = getDrone();
+		if(d != null)
+			return getDrone().calculaCustoKm()*calculaKm() + custo;
+
+		return 0;
 	}
 	@Override
 	public String geraArmazenavel(){
@@ -28,8 +32,9 @@ public class TransporteCargaViva extends Transporte {
 
 		return String.format("""
 					--Carga Viva--
-					%stemperaturaMinima: %.2f
-					temperaturaMaxima: %.2f
-					""",super.toString(),temperaturaMinima,temperaturaMaxima);
+					%sTemperatura Minima: %.2f
+					Temperatura Maxima: %.2f
+					Valor do Transporte: %.2f
+					""",super.toString(),temperaturaMinima,temperaturaMaxima,calculaCusto());
 	}
 }

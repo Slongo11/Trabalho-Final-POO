@@ -49,6 +49,9 @@ public abstract class Transporte implements Armazenavel {
 		var d = r * c; // Distancia em km
 		return d;
 	}
+	public Drone getDrone() {
+		return drone;
+	}
 
 	/**
 	 * <p>Converte graus em radianos</p>

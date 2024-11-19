@@ -12,7 +12,10 @@ public class TransportePessoal extends Transporte {
 	}
 	@Override
 	public double calculaCusto() {
-		return qtdPessoas*10;
+		Drone d = getDrone();
+		if(d != null)
+			return getDrone().calculaCustoKm()*calculaKm() + qtdPessoas*10;
+		return 0;
 	}
 	@Override
 	public String geraArmazenavel(){
@@ -22,6 +25,7 @@ public class TransportePessoal extends Transporte {
 		return String.format("""
 						--Pessoal--
 						%sQuantidade de pessoas: %d
-						""",super.toString(), qtdPessoas);
+						Valor do Transporte: %.2f
+						""",super.toString(), qtdPessoas,calculaCusto());
 	}
 }

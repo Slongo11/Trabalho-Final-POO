@@ -19,22 +19,13 @@ public class DronePessoal extends Drone {
 
 	@Override
 	public double calculaCustoKm() {
-		return (super.getCustoFixo() + qtdMaxPessoas*2);
+		return (getCustoFixo() + qtdMaxPessoas*2);
 	}
 
 	@Override
 	public String toString() {
 
-		return String.format("""
-					========================
-					Drone Pessoal
-					Código: %d
-					Custo Fixo: %.2f
-					Autonomia: %.2f
-					Quantidade Máxima de Pessoas: %d
-					Custo por Km: %.2f
-					========================
-					""",getCodigo(),getCustoFixo(),getAutonomia(),qtdMaxPessoas, calculaCustoKm());
+		return "\nDrone Pessoal\n"+super.toString() + "Quantidade de pessoas: "+qtdMaxPessoas;
 	}
 
 

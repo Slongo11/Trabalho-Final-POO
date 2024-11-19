@@ -19,4 +19,11 @@ public abstract class DroneCarga extends Drone{
 	public String geraArmazenavel() {
 		return "";
 	}
+
+	@Override
+	public String toString(){
+		return String.format("""
+				%sPeso Maximo: %.3f
+				""",super.toString(), pesoMaximo);
+	}
 }

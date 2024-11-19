@@ -14,11 +14,15 @@ public class DroneCargaViva extends DroneCarga {
 	}
 	@Override
 	public double calculaCustoKm() {
-		return 0;
+		return getCustoFixo() + (climatizado ? 20 : 10);
 	}
 
 	@Override
 	public String geraArmazenavel() {
 		return "";
+	}
+	@Override
+	public String toString() {
+		return "\nDrone Carga Viva\n"+super.toString() + "Climatizado: " + (climatizado?"Tem climatização":"Sem climatização");
 	}
 }
