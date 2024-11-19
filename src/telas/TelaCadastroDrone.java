@@ -149,7 +149,7 @@ public class TelaCadastroDrone extends JDialog implements ActionListener {
             }
 
             case "Listar" -> // Exemplo: Atualiza a área de texto com a lista de drones
-                area.setText(app.mostraInfoDroneDrone());
+                area.setText(app.mostraInfoDronePessoal());
 
             default -> {
             }

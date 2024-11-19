@@ -53,6 +53,33 @@ public class Frota implements Agrupavel{
 
 		return (ArrayList<dados.Drone>) drones.clone();
 	}
+
+	/**
+	 * <p>Mostra todos os drones de Pessoal</p>
+	 * @return informacoes drones de pessoal
+	 */
+	public String listaDronePessoal(){
+		StringBuilder sb = new StringBuilder("===Drone pessoal===");
+		for (Drone d : drones) {
+			if(d instanceof DronePessoal){
+				sb.append(d.toString());
+			}
+		}
+		return sb.toString();
+	}
+	/**
+	 * <p>Mostra todos os drones de carga</p>
+	 * @return informacoes drones de carga
+	 */
+	public String listaDronesCarga(){
+		StringBuilder sb = new StringBuilder("===Drone carga===");
+		for (Drone d : drones) {
+			if(d instanceof DroneCarga){
+				sb.append(d.toString());
+			}
+		}
+		return sb.toString();
+	}
 	/**
 	 * <p>Procura algum drone capacitado segundo as informacoes mostradas</p>
 	 * @param categoria da carga a ser levada

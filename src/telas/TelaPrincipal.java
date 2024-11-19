@@ -25,9 +25,4 @@ public class TelaPrincipal extends JFrame {
 
 	}
 
-
-
-	public void atulziaTransporte() {
-
-	}
 }

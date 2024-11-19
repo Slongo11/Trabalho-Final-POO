@@ -34,8 +34,7 @@ public class ACMEAirDrones {
 	 * @param informacoes lista a ser lida
 	 * @return informacoes do cadastro
 	 */
-	public String leInfoTransporte(List<String> informacoes){
-		try {
+	public String leInfoTransporte(List<String> informacoes) throws Exception{
 
 			Transporte t;
 			String info = informacoes.get(0);
@@ -135,26 +134,40 @@ public class ACMEAirDrones {
 				return "Nada a ser cadastrado.";
 			}
 
-		}catch (NumberFormatException e){
-			return "Erro ao cadastrar em campo numérico.";
-		}catch (Exception e){
-			return e.getMessage();
-		}
 
 		return "Não foi possivel cadastrar o transporte código repetido";
 	}
-//  TODO IMPLMENTAR
+
+	/**
+	 * <p>Cadastrar os drones solicitados</p>
+	 * @param d drone a ser cadastradao
+	 * @return verdadeiro quando for cadastrado corretament ou falso caso contrário
+	 */
 	public boolean cadastrarDrone(Drone d){
 		return frota.adicionarDrone(d);
 	}
 	/**
-	 * <p>Mostra as informacoes da lista de transporte</p>
+	 * <p>Mostra as informacoes da lista de Drones</p>
 	 * @return toda lista dos drones cadastrados cadastrados.
 	 */
-	public String mostraInfoDroneDrone(){
+	public String mostraInfoDrone(){
 		return frota.toString();
 	}
 
+	/**
+	 * <p>Mostra todos os drones pessoal</p>
+	 * @return informacoes dos drones
+	 */
+	public String mostraInfoDronePessoal(){
+		return frota.listaDronePessoal();
+	}
+	/**
+	 * <p>Mostra todos os drones de carga</p>
+	 * @return informacoes dos drones
+	 */
+	public String mostraInfoDroneCarga(){
+		return frota.listaDronesCarga();
+	}
 	/**
 	 * <p>Mostra as informacoes da lista de transporte</p>
 	 * @return toda lista do transportes cadastrados.
@@ -235,7 +248,7 @@ public class ACMEAirDrones {
 			throw new Exception("Não existe nenhum transporte pendente");
 		}
 		Queue<Transporte> novaQueue = new ArrayDeque();
-		List<Drone> listaDrone = frota.getDrones();
+
 		while(!pendente.isEmpty()){
 			Transporte transporte = pendente.remove();
 
@@ -262,21 +275,27 @@ public class ACMEAirDrones {
 		info = informacoes.get(3);
 		double autonomia = Double.parseDouble(info);
 		if(tipo == 1){
+
 			info = informacoes.get(4);
 			int qtdPessoas = Integer.parseInt(info);
 			d = new DronePessoal(codigo, custo, autonomia, qtdPessoas);
+
 		}else if(tipo == 2){
+
 			info = informacoes.get(4);
 			double peso = Double.parseDouble(info);
 			info = informacoes.get(5);
 			boolean protecao = info.equals("true");
 			d = new DroneCargaInanimada(codigo, custo, autonomia, peso, protecao);
+
 		}else if(tipo == 3){
+
 			info = informacoes.get(4);
 			double peso = Double.parseDouble(info);
 			info = informacoes.get(5);
 			boolean protecao = info.equals("true");
 			d = new DroneCargaViva(codigo,custo, autonomia, peso, protecao);
+
 		}
 		cadastrarDrone(d);
 

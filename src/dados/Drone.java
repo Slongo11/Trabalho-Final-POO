@@ -1,16 +1,20 @@
 package dados;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class Drone implements Armazenavel{
 	private int codigo;
 	private double custoFixo;
 	private double autonomia;
+	//TODO FAZER O DRONE CONHECER OS TRANSPOTES QUE TEM UM LIGAÇÃO
+	private ArrayList<Transporte> transporte;
 
 	public Drone(int codigo, double custoFixo, double autonomia) {
 		this.codigo = codigo;
 		this.custoFixo = custoFixo;
 		this.autonomia = autonomia;
+		this.transporte = new ArrayList<>();
 	}
 	public abstract double calculaCustoKm();
 

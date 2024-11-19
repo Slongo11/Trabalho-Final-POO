@@ -42,7 +42,7 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 	private JPanel painelCampo11;
 	private JPanel painelCampo12;
 	private JPanel botoes1;
-
+	private JPanel painelPrincipal;
 	private ACMEAirDrones app;
 
 	public TelaCadastroTransporte(ACMEAirDrones app) {
@@ -50,7 +50,7 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 		this.app = app;
 		setTitle("Cadastro novo Transporte");
 		setSize(800,800);
-		JPanel painelPrincipal = new JPanel(); // o principal painel
+		painelPrincipal = new JPanel(); // o principal painel
 		GridLayout gridPrincipal = new GridLayout(1,1);
 		painelPrincipal.setLayout(gridPrincipal);
 
@@ -87,8 +87,22 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 			info.add(campo11.getText());
 			info.add(campo12.getText());
 			info.add((String)campo13.getSelectedItem());
-			String informacao = app.leInfoTransporte(info);
-			resultado.setText(informacao);
+			try {
+				String informacao = app.leInfoTransporte(info);
+				resultado.setText(informacao);
+			}catch (NumberFormatException e1){
+				JOptionPane.showMessageDialog(painelPrincipal,
+						"Dados numéricos incorretos",
+						"Erro",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			catch (Exception e1) {
+			JOptionPane.showMessageDialog(painelPrincipal,
+					e1.getMessage(),
+					"Erro",
+					JOptionPane.ERROR_MESSAGE);
+			}
+
 		}
 		else if (e.getSource() == limpar) {
 			campo1.setSelectedIndex(0);

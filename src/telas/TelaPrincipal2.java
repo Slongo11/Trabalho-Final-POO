@@ -68,15 +68,19 @@ public class TelaPrincipal2 implements ActionListener {
 			}
 			else if (e.getSource() == cadastrarNovoDronePessoalButton) {
 				new TelaCadastroDrone(app);
-			} else if (e.getSource() == cadastrarNovoDroneDeCargaButton) {
-				//TODO TELA DE CADASTRO DE DRONE DE CARGA
-			}else if (e.getSource() == finalizarButton) {
+
+			}
+			else if (e.getSource() == cadastrarNovoDroneDeCargaButton) {
+				TelaCadastroDroneCarga tela = new TelaCadastroDroneCarga(app);
+			}
+			else if (e.getSource() == finalizarButton) {
 				System.exit(0);
 			}
 			else if (e.getSource() == relatorioButton) {
 
-				textArea1.setText( "Transporte\n"+app.mostraInfoTransporte() +"\nDrones\n" + app.mostraInfoDroneDrone());
-			}else if (e.getSource() == alterarStatusButton) {
+				textArea1.setText( "Transporte\n"+app.mostraInfoTransporte() +"\nDrones\n" + app.mostraInfoDrone());
+			}
+			else if (e.getSource() == alterarStatusButton) {
 				String info = textField1.getText();
 				int num = Integer.parseInt(info);
 				Transporte t = app.buscaTransporte(num);
