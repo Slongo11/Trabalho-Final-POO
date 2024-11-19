@@ -78,7 +78,7 @@ public class Frota implements Agrupavel{
 	public Drone capacitado(CategoriaCarga categoria,double distancia) throws Exception{
 		if(CategoriaCarga.CARGA_VIVA == categoria){
 			return capacitadoDroneCargaViva(distancia);
-		}else if(CategoriaCarga.PESSOAS == categoria){
+		}else if(CategoriaCarga.CARGA_INANIMADA == categoria){
 			return capacitadoDroneCargaInanimada(distancia);
 		}
 		throw new Exception("Categoria invalida");
@@ -97,37 +97,35 @@ public class Frota implements Agrupavel{
 				return drone;
 			}
 		}
-		throw new Exception("Nenhum drone encontrado");
+		return null;
 	}
 
 	/**
 	 * <p>Pega um drone capacitado em fazer o trabalho de levar carga Inanimada</p>
 	 * @param distancia a distancia a ser percorida
 	 * @return o drone
-	 * @throws Exception caso nao enecontre nenhum drone
 	 */
-	private Drone capacitadoDroneCargaInanimada(double distancia) throws Exception{
+	private Drone capacitadoDroneCargaInanimada(double distancia){
 		for (Drone drone : drones) {
 			if(drone instanceof DroneCargaInanimada && drone.getAutonomia() >= distancia){
 				return drone;
 			}
 		}
 
-		throw new Exception("Nenhum drone encontrado");
+		return null;
 	}
 	/**
 	 * <p>Pega um drone capacitado em fazer o trabalho de levar pessoas</p>
 	 * @param distancia a distancia a ser percorida
 	 * @return o drone
-	 * @exception Exception caso nao encotre nenhum drone
 	 */
-	private Drone capacitadoDroneCargaViva(double distancia) throws Exception {
+	private Drone capacitadoDroneCargaViva(double distancia) {
 		for (Drone drone : drones) {
 			if(drone instanceof DroneCargaViva && drone.getAutonomia() >= distancia){
 				return drone;
 			}
 		}
-		throw new Exception("Nenhum drone encontrado");
+		return null;
 	}
 
 	@Override

@@ -100,7 +100,7 @@ public abstract class Transporte implements Armazenavel {
 
 	@Override
 	public String geraArmazenavel() {
-		return String.format("%s;%s;%s;%s;%s;%s;%s;%s",numero,nomeCliente,descricao,peso,latitudeOrigem,latitudeOrigem,longitudeOrigem,longitudeOrigem);
+		return String.format("%s;%s;%s;%s;%s;%s;%s;%s",numero,nomeCliente,descricao,peso,latitudeOrigem,longitudeOrigem,latitudeDestino,longitudeDestino);
 	}
 
 	@Override

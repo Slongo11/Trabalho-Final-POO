@@ -80,8 +80,8 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 			info.add(campo4.getText());
 			info.add(campo5.getText());
 			info.add(campo6.getText());
-			info.add(campo7.getText());
 			info.add(campo8.getText());
+			info.add(campo7.getText());
 			info.add(campo9.getText());
 			info.add(campo10.getText());
 			info.add(campo11.getText());

@@ -1,6 +1,8 @@
 package telas;
 
 import aplicacao.ACMEAirDrones;
+import dados.Estado;
+import dados.Transporte;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,13 +21,17 @@ public class TelaPrincipal2 implements ActionListener {
 	private JButton limparButton1;
 	private JPanel painel;
 	private JButton processarButton;
+	private JTextArea textArea1;
+	private JScrollPane resultado;
+	private JButton alterarStatusButton;
+	private JComboBox<Estado> comboBox1;
 	private ACMEAirDrones app;
 
 	public TelaPrincipal2(ACMEAirDrones app) {
 		this.app = app;
-
-
-
+		comboBox1.addItem(Estado.ALOCADO);
+		comboBox1.addItem(Estado.TERMINADO);
+		comboBox1.addItem(Estado.CANCELADO);
 		limparButton.addActionListener(this);
 		limparButton1.addActionListener(this);
 		finalizarButton.addActionListener(this);
@@ -36,6 +42,7 @@ public class TelaPrincipal2 implements ActionListener {
 		textField1.addActionListener(this);
 		pequisarButton.addActionListener(this);
 		processarButton.addActionListener(this);
+		alterarStatusButton.addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -43,10 +50,17 @@ public class TelaPrincipal2 implements ActionListener {
 			if (e.getSource() == limparButton) {
 				textField1.setText("");
 			} else if (e.getSource() == limparButton1) {
-				principal.setText("");
+				textArea1.setText("");
 			} else if (e.getSource() == pequisarButton) {
-				//TODO FAZER A PEQUISA
-				principal.setText("algo");
+				String info = textField1.getText();
+				int num = Integer.parseInt(info);
+				Transporte t = app.buscaTransporte(num);
+				if (t != null) {
+					textArea1.setText(t.toString());
+				}else {
+					textArea1.setText("Erro ao buscar transporte");
+				}
+
 			} else if (e.getSource() == cadastrarNovoTransporteButton) {
 				TelaCadastroTransporte trans = new TelaCadastroTransporte(app);
 			} else if (e.getSource() == processarButton) {
@@ -60,12 +74,25 @@ public class TelaPrincipal2 implements ActionListener {
 				System.exit(0);
 			}
 			else if (e.getSource() == relatorioButton) {
-				//TODO RELATORIO
-				principal.setText("Relatorio");
+
+				textArea1.setText( "Transporte\n"+app.mostraInfoTransporte() +"\nDrones\n" + app.mostraInfoDroneDrone());
+			}else if (e.getSource() == alterarStatusButton) {
+				String info = textField1.getText();
+				int num = Integer.parseInt(info);
+				Transporte t = app.buscaTransporte(num);
+				Estado estado =(Estado) comboBox1.getSelectedItem();
+				textArea1.setText(app.alteraSituacaoTrasporte(t,estado));
 			}
+		}catch (NumberFormatException e1) {
+			JOptionPane.showMessageDialog(painel,
+					"Codigo digitado nao e numerico!",
+					"Erro",
+					JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e1) {
-			//TODO COLOCAR UMA MENSAGEM BONITA COMO UM POP UP
-			principal.setText(e1.getMessage());
+			JOptionPane.showMessageDialog(painel,
+					e1.getMessage(),
+					"Erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

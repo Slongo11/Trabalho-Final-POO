@@ -57,14 +57,19 @@ public class ACMEAirDrones {
 			String descricao = info;
 			info = informacoes.get(4);
 			double peso = Double.parseDouble(info);
+
 			info = informacoes.get(5);
 			double latitideOrigem = Double.parseDouble(info);
+
 			info = informacoes.get(6);
-			double latitideDestino = Double.parseDouble(info);
-			info = informacoes.get(7);
 			double longitudeOrigem = Double.parseDouble(info);
+
+			info = informacoes.get(7);
+			double latitideDestino = Double.parseDouble(info);
+
 			info = informacoes.get(8);
 			double longitudeDestino = Double.parseDouble(info);
+
 			if(latitideOrigem >90 || latitideOrigem < -90)
 				throw new Exception("Valor da latitude deve ser entre -90 e 90.");
 
@@ -177,7 +182,11 @@ public class ACMEAirDrones {
 	 * @throws Exception por por informacoes incorretas
 	 */
 	public Drone buscaDrone(CategoriaCarga carga,double distancia, int pessoas) throws Exception{
-		return carga == CategoriaCarga.PESSOAS ? frota.capacitado(carga, distancia, pessoas): frota.capacitado(carga, distancia);
+		return frota.capacitado(carga, distancia, pessoas);
+	}
+
+	public Drone buscaDrone(CategoriaCarga carga,double distancia) throws Exception{
+		return frota.capacitado(carga, distancia);
 	}
 
 	/**
@@ -187,6 +196,9 @@ public class ACMEAirDrones {
 	 * @throws Exception informa
 	 */
 	public String alteraSituacaoTrasporte(Transporte t, Estado atulizar) throws Exception{
+		if(t == null){
+			throw new Exception("Transporte não encontrado");
+		}
 		Estado estado = t.getSituacao();
 		if(estado == Estado.PENDENTE && atulizar != Estado.PENDENTE){
 			if(atulizar == Estado.ALOCADO){
@@ -194,12 +206,12 @@ public class ACMEAirDrones {
 				if(t instanceof TransportePessoal) {
 					d = buscaDrone(CategoriaCarga.PESSOAS, t.calculaKm(),((TransportePessoal)t).getQtdPessoas());
 				}else if(t instanceof TransporteCargaInanimada) {
-					d = buscaDrone(CategoriaCarga.CARGA_INANIMADA, t.calculaKm(), 0);
+					d = buscaDrone(CategoriaCarga.CARGA_INANIMADA, t.calculaKm());
 				}else{
-					d = buscaDrone(CategoriaCarga.CARGA_VIVA, t.calculaKm(), 0);
+					d = buscaDrone(CategoriaCarga.CARGA_VIVA, t.calculaKm());
 				}
 				if(d == null)
-					throw new Exception("Nenhum drone encontrado.");
+					return "Nenhum drone encontrado.";
 				t.adicionaDrone(d);
 			} else{
 				t.atualizaStatus(atulizar);
@@ -224,22 +236,16 @@ public class ACMEAirDrones {
 		}
 		Queue<Transporte> novaQueue = new ArrayDeque();
 		List<Drone> listaDrone = frota.getDrones();
-
 		while(!pendente.isEmpty()){
 			Transporte transporte = pendente.remove();
-			double distancia = transporte.calculaKm();
 
-			for(Drone d : listaDrone){
-				if(d.getAutonomia() >= distancia){
-					transporte.adicionaDrone(d);
-					break;
-				}
-			}
+			alteraSituacaoTrasporte(transporte,Estado.ALOCADO);
+
 			if(transporte.getSituacao() == Estado.PENDENTE){
 				novaQueue.add(transporte);
 			}
-
 		}
+
 		pendente.addAll(novaQueue);
 	}
 
