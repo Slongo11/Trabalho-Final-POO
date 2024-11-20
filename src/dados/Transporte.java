@@ -119,10 +119,9 @@ public abstract class Transporte implements Armazenavel {
 							Longitude Destino: %.5f
 							Distancia: %.3f KM
 							Situacao: %s
-							Drone: %s
 							""",numero,nomeCliente,descricao,peso, latitudeOrigem,
 				latitudeDestino,longitudeOrigem,longitudeDestino,calculaKm(),
-				situacao.toString(),drone == null ? "Nenhum drone":"Drone codigo:" + drone.getCodigo());
+				situacao.toString());
 	}
 
 }

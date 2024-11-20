@@ -262,8 +262,11 @@ public class ACMEAirDrones {
 		pendente.addAll(novaQueue);
 	}
 
-	public void leInfoDrone(ArrayList<String> informacoes){
-		//TODO TERMINAR ESSE METODO
+	/**
+	 * <p>Faz a leitura dos drones a serem cadastarados</p>
+	 * @param informacoes informacoes de cadastro
+	 */
+	public void leInfoDrone(List<String> informacoes){
 		//1-Pessoal, 2-Carga inanimada, 3-Carga viva
 		Drone d = null;
 		String info = informacoes.get(0);
@@ -302,6 +305,49 @@ public class ACMEAirDrones {
 	}
 
 	/**
+	 * <p>Chamada para os arquivos simula</p>
+	 */
+	public void simulaCarrega(){
+		String arquvoDorne = "arquivos/SIMULA-DRONES.csv";
+		String arquvoTransporte = "arquivos/SIMULA-TRANSPORTES.csv";
+		simulaCarrega(arquvoDorne);
+		simulaCarrega(arquvoTransporte);
+	}
+
+	/**
+	 * <p>Executa o simula lendo os arquivos </p>
+	 * @param local a ser lido os arquivos
+	 */
+	private void simulaCarrega(String local){
+		Path path = Paths.get(local);
+		try(BufferedReader reader = new BufferedReader(Files.newBufferedReader(path, Charset.defaultCharset()))){
+			String linha = null;
+			List<String> info = new ArrayList<>();
+			while ((linha = reader.readLine()) != null){
+				Scanner sc = new Scanner(linha).useDelimiter(";");
+
+				while(sc.hasNext()){
+					info.add(sc.next());
+				}
+				if(local.equalsIgnoreCase("arquivos/SIMULA-DRONES.csv")){
+					leInfoDrone(info);
+				}else{
+					leInfoTransporte(info);
+				}
+				info.clear();
+
+
+			}
+		}catch (IOException e){
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e){
+			System.err.println(e.getMessage());
+			System.err.println("Erro ao cadastra informacao");
+		}
+	}
+
+	/**
 	 * <p>Armazena em um arquivo tipo CSV</p>
 	 */
 	public void armazenaConteudo(){
@@ -323,7 +369,7 @@ public class ACMEAirDrones {
 	 * @param local de carregamento
 	 */
 	private void carregaConteudo(String local){
-		ArrayList<String> info = new ArrayList<>();
+		List<String> info = new ArrayList<>();
 		Path path = Paths.get(local);
 		boolean verifica = false;
 		try(BufferedReader reader = new BufferedReader(Files.newBufferedReader(path, Charset.defaultCharset()))){

@@ -26,6 +26,9 @@ public class TransportePessoal extends Transporte {
 						--Pessoal--
 						%sQuantidade de pessoas: %d
 						Valor do Transporte: %.2f
-						""",super.toString(), qtdPessoas,calculaCusto());
+						---
+						%s
+						---
+						""",super.toString(), qtdPessoas,calculaCusto(),getDrone() == null ? "Nenhum drone":getDrone().toString());
 	}
 }

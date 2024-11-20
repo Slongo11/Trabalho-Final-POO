@@ -30,6 +30,9 @@ public class TransporteCargaInanimada extends Transporte {
 						--Carga Inanimada--
 						%stipo: %s
 						Valor do Transporte: %.2f
-						""",super.toString(),cargaPerigosa ? "Perigosa":"Não Perigosa",calculaCusto());
+						---
+						%s
+						---
+						""",super.toString(),cargaPerigosa ? "Perigosa":"Não Perigosa",calculaCusto(),getDrone() == null ? "Nenhum drone":getDrone().toString());
 	}
 }

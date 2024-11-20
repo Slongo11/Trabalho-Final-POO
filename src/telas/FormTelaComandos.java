@@ -35,7 +35,7 @@ public class FormTelaComandos implements ActionListener {
 								"Aviso",
 								JOptionPane.WARNING_MESSAGE);
 					}else{
-						//TODO CARREGAR O ARQUIVO SIMULA
+						app.simulaCarrega();
 						textArea1.setText("Carregando comando...!");
 						executado = true;
 					}

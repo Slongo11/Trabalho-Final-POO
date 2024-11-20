@@ -35,6 +35,9 @@ public class TransporteCargaViva extends Transporte {
 					%sTemperatura Minima: %.2f
 					Temperatura Maxima: %.2f
 					Valor do Transporte: %.2f
-					""",super.toString(),temperaturaMinima,temperaturaMaxima,calculaCusto());
+					---
+					%s
+					---
+					""",super.toString(),temperaturaMinima,temperaturaMaxima,calculaCusto(),getDrone() == null ? "Nenhum drone":getDrone().toString());
 	}
 }
