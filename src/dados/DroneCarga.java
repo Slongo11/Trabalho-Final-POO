@@ -11,13 +11,11 @@ public abstract class DroneCarga extends Drone{
 	}
 
 	@Override
-	public double calculaCustoKm() {
-		return 0;
-	}
+	public abstract double calculaCustoKm();
 
 	@Override
 	public String geraArmazenavel() {
-		return "";
+		return super.geraArmazenavel()+";"+pesoMaximo;
 	}
 
 	@Override

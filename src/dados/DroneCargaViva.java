@@ -19,7 +19,7 @@ public class DroneCargaViva extends DroneCarga {
 
 	@Override
 	public String geraArmazenavel() {
-		return "";
+		return String.format("3;%s;%s", super.geraArmazenavel(),climatizado);
 	}
 	@Override
 	public String toString() {

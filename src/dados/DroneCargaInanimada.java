@@ -20,7 +20,7 @@ public class DroneCargaInanimada extends DroneCarga {
 
 	@Override
 	public String geraArmazenavel() {
-		return "";
+		return String.format("2;%s;%s",super.geraArmazenavel(),protecao);
 	}
 	@Override
 	public String toString() {
