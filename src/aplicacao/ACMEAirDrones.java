@@ -349,10 +349,11 @@ public class ACMEAirDrones {
 
 	/**
 	 * <p>Armazena em um arquivo tipo CSV</p>
+	 * @param local a ser armazenado
 	 */
-	public void armazenaConteudo(String local1){
-		String local = "arquivos/"+local1+".csv";
-		Path path = Paths.get(local);
+	public void armazenaConteudo(String local){
+		String local1 = "arquivos/"+local+".csv";
+		Path path = Paths.get(local1);
 		try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path, Charset.defaultCharset())))
 		{
 			writer.print(listaTransporte.getCsvFormat());
@@ -367,8 +368,9 @@ public class ACMEAirDrones {
 	/**
 	 * <p>Carrega o conteudo do arquivo salvo</p>
 	 * @param local de carregamento
+	 * @return caso bem sucedido verdadeiro ou falso quando não encotra o arquivo
 	 */
-	private void carregaConteudo(String local){
+	public boolean carregaConteudo(String local){
 		List<String> info = new ArrayList<>();
 		Path path = Paths.get(local);
 		boolean verifica = false;
@@ -395,11 +397,14 @@ public class ACMEAirDrones {
 			}
 		}catch (IOException e){
 			System.out.println(e.getMessage());
+			return false;
 		}
 		catch(Exception e){
 			System.err.println(e.getMessage());
 			System.err.println("Erro ao cadastra informacao");
+			return false;
 		}
+		return true;
 	}
 
 }

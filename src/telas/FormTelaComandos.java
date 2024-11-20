@@ -12,6 +12,7 @@ public class FormTelaComandos implements ActionListener {
 	private JTextField textField1;
 	private JTextArea textArea1;
 	private JPanel painel;
+	private JCheckBox salvarEmArquivoCheckBox;
 	private ACMEAirDrones app;
 	private TelaComandos tela;
 	private boolean executado;
@@ -21,6 +22,7 @@ public class FormTelaComandos implements ActionListener {
 		executado = false;
 		executarButton.addActionListener(this);
 		voltarButton.addActionListener(this);
+
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -40,7 +42,7 @@ public class FormTelaComandos implements ActionListener {
 						executado = true;
 					}
 				}
-				else if(true){
+				else if(salvarEmArquivoCheckBox.isSelected()){
 					String local = textField1.getText();
 					if(local.equalsIgnoreCase("SIMULA")){
 						throw new Exception("Comando inválido ");
@@ -53,12 +55,19 @@ public class FormTelaComandos implements ActionListener {
 					}
 					app.armazenaConteudo(local);
 					textArea1.setText("Arquivo salvo com sucesso!");
-				}else{
-					JOptionPane.showMessageDialog(painel,
-						"Comando inválido",
-							"Erro",
-							JOptionPane.ERROR_MESSAGE);
+				}else {
+					String local = "arquivos/"+comando+".csv";
+					if(app.carregaConteudo(local)){
+						textArea1.setText("Carregando comando...!");
+					}else{
+						JOptionPane.showMessageDialog(painel,
+								"Problema ao carregar arquivo",
+								"Erro",
+								JOptionPane.ERROR_MESSAGE);
+					}
+
 				}
+
 
 			}else if(e.getSource() == voltarButton){
 				tela.setVisible(false);
