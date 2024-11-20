@@ -11,7 +11,7 @@ public class TelaCadastroDroneCarga extends JDialog {
 		super();
 		formCadastroCarga= new FormCadastroDroneCarga(this,app);
 		this.add(formCadastroCarga.getPainel());
-		setTitle("Janela");
+		setTitle("Cadastro de Drones Carga");
 		setSize(800, 600);
 		this.setModal(true);
 		setVisible(true); // torna visivel a tela

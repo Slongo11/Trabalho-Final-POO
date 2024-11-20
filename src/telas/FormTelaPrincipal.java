@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TelaPrincipal2 implements ActionListener {
+public class FormTelaPrincipal implements ActionListener {
 	private JButton limparButton;
 	private JButton finalizarButton;
 	private JButton relatorioButton;
@@ -25,9 +25,10 @@ public class TelaPrincipal2 implements ActionListener {
 	private JScrollPane resultado;
 	private JButton alterarStatusButton;
 	private JComboBox<Estado> comboBox1;
+	private JButton comandos;
 	private ACMEAirDrones app;
 
-	public TelaPrincipal2(ACMEAirDrones app) {
+	public FormTelaPrincipal(ACMEAirDrones app) {
 		this.app = app;
 		comboBox1.addItem(Estado.ALOCADO);
 		comboBox1.addItem(Estado.TERMINADO);
@@ -43,6 +44,7 @@ public class TelaPrincipal2 implements ActionListener {
 		pequisarButton.addActionListener(this);
 		processarButton.addActionListener(this);
 		alterarStatusButton.addActionListener(this);
+		comandos.addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -86,6 +88,8 @@ public class TelaPrincipal2 implements ActionListener {
 				Transporte t = app.buscaTransporte(num);
 				Estado estado =(Estado) comboBox1.getSelectedItem();
 				textArea1.setText(app.alteraSituacaoTrasporte(t,estado));
+			}else if(e.getSource() == comandos){
+				TelaComandos tela = new TelaComandos(app);
 			}
 		}catch (NumberFormatException e1) {
 			JOptionPane.showMessageDialog(painel,
