@@ -40,8 +40,18 @@ public class FormTelaComandos implements ActionListener {
 						executado = true;
 					}
 				}
-				else if (comando.equalsIgnoreCase("FINAL")) {
-					app.armazenaConteudo();
+				else if(true){
+					String local = textField1.getText();
+					if(local.equalsIgnoreCase("SIMULA")){
+						throw new Exception("Comando inválido ");
+					}
+					if(local.matches(".*\\..*")){
+						throw new Exception("Arquivo com ponto não é permitido");
+					}
+					if(local.contains(" ")){
+						throw new Exception("O arquivo não pode ter espaço em branco");
+					}
+					app.armazenaConteudo(local);
 					textArea1.setText("Arquivo salvo com sucesso!");
 				}else{
 					JOptionPane.showMessageDialog(painel,

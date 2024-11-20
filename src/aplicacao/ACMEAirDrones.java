@@ -350,8 +350,8 @@ public class ACMEAirDrones {
 	/**
 	 * <p>Armazena em um arquivo tipo CSV</p>
 	 */
-	public void armazenaConteudo(){
-		String local = "arquivos/salva.csv";
+	public void armazenaConteudo(String local1){
+		String local = "arquivos/"+local1+".csv";
 		Path path = Paths.get(local);
 		try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path, Charset.defaultCharset())))
 		{
