@@ -69,7 +69,6 @@ public class FormTelaPrincipal implements ActionListener {
 				app.processaTransportesPendentes();
 			}
 			else if (e.getSource() == cadastrarNovoDronePessoalButton) {
-				new TelaCadastroDrone(app);
 
 			}
 			else if (e.getSource() == cadastrarNovoDroneDeCargaButton) {

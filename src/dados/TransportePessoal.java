@@ -19,7 +19,7 @@ public class TransportePessoal extends Transporte {
 	}
 	@Override
 	public String geraArmazenavel(){
-		return String.format("1;%s;%s;%s;%s\n",super.geraArmazenavel(),qtdPessoas,getDrone().getCodigo(),getSituacao());
+		return String.format("1;%s;%s;%s;%s\n",super.geraArmazenavel(),qtdPessoas,getDrone()==null?"null":getDrone().getCodigo(),getSituacao());
 	}
 	public String toString() {
 		return String.format("""

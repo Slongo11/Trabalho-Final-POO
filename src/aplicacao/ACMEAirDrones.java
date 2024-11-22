@@ -94,7 +94,10 @@ public class ACMEAirDrones {
 						info = informacoes.get(11);
 
 						Estado estado;
-						Drone d = frota.buscaDrone(Integer.parseInt(numD));
+						Drone d = null;
+						if(!numD.equals("null")){
+							d = frota.buscaDrone(Integer.parseInt(numD));
+						}
 						if (Estado.PENDENTE.toString().equals(info)) {
 							estado = Estado.PENDENTE;
 						} else if (Estado.ALOCADO.toString().equals(info)) {
@@ -126,7 +129,10 @@ public class ACMEAirDrones {
 						info = informacoes.get(11);
 
 						Estado estado;
-						Drone d = frota.buscaDrone(Integer.parseInt(numD));
+						Drone d = null;
+						if(!numD.equals("null")){
+							d = frota.buscaDrone(Integer.parseInt(numD));
+						}
 						if (Estado.PENDENTE.toString().equals(info)) {
 							estado = Estado.PENDENTE;
 						} else if (Estado.ALOCADO.toString().equals(info)) {
@@ -161,7 +167,10 @@ public class ACMEAirDrones {
 						String numD = informacoes.get(11);
 						info = informacoes.get(12);
 						Estado estado;
-						Drone d = frota.buscaDrone(Integer.parseInt(numD));
+						Drone d = null;
+						if(!numD.equals("null")){
+							d = frota.buscaDrone(Integer.parseInt(numD));
+						}
 						if(Estado.PENDENTE.toString().equals(info)) {
 							estado = Estado.PENDENTE;
 						}else if(Estado.ALOCADO.toString().equals(info)){
@@ -300,15 +309,31 @@ public class ACMEAirDrones {
 	}
 
 	/**
+	 * <p>Valida se tem algum transporte pendente</p>
+	 * @return
+	 */
+	private Queue<Transporte> validaPendencias(Queue<Transporte> pendencias){
+		Queue<Transporte> retorno = new LinkedList<>();
+		while(!pendencias.isEmpty()){
+			Transporte t = pendencias.poll();
+			if(t.getSituacao() == Estado.PENDENTE){
+				retorno.add(t);
+			}
+		}
+		return retorno;
+	}
+
+	/**
 	 * <p>Acha algum drone a ser alocado aos transporte</p>
 	 * @throws Exception joga uma excecao para lista de transporte vazia
 	 */
 	public void processaTransportesPendentes() throws Exception{
 		Queue<Transporte> pendente =  listaTransporte.getFilaDeTransporte();
+		pendente = validaPendencias(pendente);
 		if(pendente.isEmpty()){
 			throw new Exception("Não existe nenhum transporte pendente");
 		}
-		Queue<Transporte> novaQueue = new ArrayDeque();
+		Queue<Transporte> novaQueue = new LinkedList();
 
 		while(!pendente.isEmpty()){
 			Transporte transporte = pendente.remove();
@@ -417,8 +442,8 @@ public class ACMEAirDrones {
 		Path path = Paths.get(local1);
 		try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path, Charset.defaultCharset())))
 		{
-			writer.println( frota.getCsvFormat());
-			writer.print("-1\n" +listaTransporte.getCsvFormat());
+			writer.print( frota.getCsvFormat());
+			writer.println("-1\n" +listaTransporte.getCsvFormat());
 		}catch(Exception e){
 			System.err.println(e);
 			System.err.println("Erro ao escrever o arquivo");

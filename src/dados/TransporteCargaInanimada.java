@@ -21,7 +21,7 @@ public class TransporteCargaInanimada extends Transporte {
 
 	@Override
 	public String geraArmazenavel(){
-		return String.format("2;%s;%s;%s;%s\n",super.geraArmazenavel(),cargaPerigosa,getDrone().getCodigo(),getSituacao());
+		return String.format("2;%s;%s;%s;%s\n",super.geraArmazenavel(),cargaPerigosa,getDrone()==null?"null":getDrone().getCodigo(),getSituacao());
 	}
 	@Override
 	public String toString(){

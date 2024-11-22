@@ -22,14 +22,18 @@ public class FormCadastroDroneCarga implements ActionListener {
 	private JButton voltarButton;
 	private JButton limparButton1;
 	private JButton mostraButton;
+	private JTextField textField5;
 	private TelaCadastroDroneCarga telaCadastroDroneCarga;
 	private ACMEAirDrones app;
 	public FormCadastroDroneCarga(TelaCadastroDroneCarga tela,ACMEAirDrones app) {
 		this.app = app;
 		telaCadastroDroneCarga = tela;
+		comboBox2.addItem(CategoriaCarga.PESSOAS);
 		comboBox2.addItem(CategoriaCarga.CARGA_INANIMADA);
 		comboBox2.addItem(CategoriaCarga.CARGA_VIVA);
 		climatizadoCheckBox.setEnabled(false);
+		proteçãoCheckBox.setEnabled(false);
+		textField4.setEnabled(false);
 		limparButton.addActionListener(this);
 		limparButton1.addActionListener(this);
 		cadastrarButton.addActionListener(this);
@@ -41,13 +45,26 @@ public class FormCadastroDroneCarga implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			if (e.getSource() == comboBox2) {
+				if(CategoriaCarga.PESSOAS.equals(comboBox2.getSelectedItem())) {
+					textField5.setEnabled(true);
+					proteçãoCheckBox.setEnabled(false);
+					climatizadoCheckBox.setEnabled(false);
+					textField4.setEnabled(false);
+					textField4.setText("");
+				}
 				if(CategoriaCarga.CARGA_INANIMADA.equals(comboBox2.getSelectedItem())) {
 					proteçãoCheckBox.setEnabled(true);
 					climatizadoCheckBox.setEnabled(false);
+					textField5.setEnabled(false);
+					textField4.setEnabled(true);
+					textField5.setText("");
 				}
 				if(CategoriaCarga.CARGA_VIVA.equals(comboBox2.getSelectedItem())) {
 					proteçãoCheckBox.setEnabled(false);
 					climatizadoCheckBox.setEnabled(true);
+					textField5.setEnabled(false);
+					textField4.setEnabled(true);
+					textField5.setText("");
 				}
 
 			} else if (e.getSource() == limparButton) {
@@ -55,25 +72,33 @@ public class FormCadastroDroneCarga implements ActionListener {
 				textField2.setText("");
 				textField3.setText("");
 				textField4.setText("");
+				textField5.setText("");
 
 			}
 			else if (e.getSource() == limparButton1) {
 				resultado.setText("");
 			}else if (e.getSource() == cadastrarButton) {
-				DroneCarga d = null;
+				Drone d = null;
 				int idCategoria = ((CategoriaCarga)comboBox2.getSelectedItem()).getCodigo();
 				int codigo = Integer.parseInt(textField1.getText());
 				double custoFixo = Double.parseDouble(textField2.getText());
-				double altonomia = Double.parseDouble(textField3.getText());
-				double pesoMaximo = Double.parseDouble(textField4.getText());
+				double autonomia = Double.parseDouble(textField3.getText());
 				boolean result = false;
+				if(idCategoria == 1){
+					int qtdPessoas = Integer.parseInt(textField5.getText());
+					d = new DronePessoal(codigo,custoFixo,autonomia,qtdPessoas);
+				}
+
 				if(idCategoria == 2) {
+					double pesoMaximo = Double.parseDouble(textField4.getText());
 					result = proteçãoCheckBox.isSelected();
-					d = new DroneCargaInanimada(codigo,custoFixo,altonomia,pesoMaximo,result);
+
+					d = new DroneCargaInanimada(codigo,custoFixo,autonomia,pesoMaximo,result);
 				}
 				if(idCategoria == 3) {
+					double pesoMaximo = Double.parseDouble(textField4.getText());
 					result = climatizadoCheckBox.isSelected();
-					d = new DroneCargaViva(codigo,custoFixo,altonomia,pesoMaximo,result);
+					d = new DroneCargaViva(codigo,custoFixo,autonomia,pesoMaximo,result);
 				}
 				if(app.cadastrarDrone(d)){
 					resultado.setText("Cadstrado com sucesso!");
@@ -83,7 +108,7 @@ public class FormCadastroDroneCarga implements ActionListener {
 			}else if (e.getSource() == voltarButton) {
 				telaCadastroDroneCarga.setVisible(false);
 			}else if (e.getSource() == mostraButton) {
-				resultado.setText(app.mostraInfoDroneCarga());
+				resultado.setText(app.mostraInfoDrone());
 			}
 
 
