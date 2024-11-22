@@ -2,6 +2,7 @@ package dados;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Queue;
 
 public class ListaTransporte implements Agrupavel {
@@ -23,7 +24,20 @@ public class ListaTransporte implements Agrupavel {
 			throw new Exception("Não foi possivel cadastrar o transporte código repetido.");
 		}
 		filaDeTransporte.add(t);
-		return listaTransporte.add(t);
+		listaTransporte.add(t);
+		sort();
+		return true;
+	}
+	private void sort() {
+		for (int i = 1; i < listaTransporte.size(); i++) {
+			Transporte cod = listaTransporte.get(i);
+			int j = i - 1;
+			while (j >= 0 && listaTransporte.get(j).getCodigo() > cod.getCodigo()) {
+				listaTransporte.set(j + 1, listaTransporte.get(j));
+				j = j - 1;
+			}
+			listaTransporte.set(j + 1, cod);
+		}
 	}
 	public Queue<Transporte> getFilaDeTransporte() {
 		return filaDeTransporte;

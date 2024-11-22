@@ -69,7 +69,9 @@ public abstract class Transporte implements Armazenavel {
 	public Drone getDrone() {
 		return drone;
 	}
-
+	public int getCodigo(){
+		return numero;
+	}
 	
 
 	public int getNumero() {
