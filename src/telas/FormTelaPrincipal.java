@@ -12,7 +12,7 @@ public class FormTelaPrincipal implements ActionListener {
 	private JButton limparButton;
 	private JButton finalizarButton;
 	private JButton relatorioButton;
-	private JButton cadastrarNovoDroneDeCargaButton;
+	private JButton cadastrarNovoDroneButton;
 	private JButton cadastrarNovoDronePessoalButton;
 	private JButton cadastrarNovoTransporteButton;
 	private JTextField textField1;
@@ -37,8 +37,7 @@ public class FormTelaPrincipal implements ActionListener {
 		limparButton1.addActionListener(this);
 		finalizarButton.addActionListener(this);
 		relatorioButton.addActionListener(this);
-		cadastrarNovoDroneDeCargaButton.addActionListener(this);
-		cadastrarNovoDronePessoalButton.addActionListener(this);
+		cadastrarNovoDroneButton.addActionListener(this);
 		cadastrarNovoTransporteButton.addActionListener(this);
 		textField1.addActionListener(this);
 		pequisarButton.addActionListener(this);
@@ -68,10 +67,7 @@ public class FormTelaPrincipal implements ActionListener {
 			} else if (e.getSource() == processarButton) {
 				app.processaTransportesPendentes();
 			}
-			else if (e.getSource() == cadastrarNovoDronePessoalButton) {
-
-			}
-			else if (e.getSource() == cadastrarNovoDroneDeCargaButton) {
+			else if (e.getSource() == cadastrarNovoDroneButton) {
 				TelaCadastroDroneCarga tela = new TelaCadastroDroneCarga(app);
 			}
 			else if (e.getSource() == finalizarButton) {

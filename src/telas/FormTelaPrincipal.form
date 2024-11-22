@@ -66,7 +66,7 @@
           <grid row="2" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Cadastros"/>
+          <text value="&lt;html&gt;&lt;h1&gt;Cadastros&lt;/h1&gt;&lt;/html&gt;"/>
         </properties>
       </component>
       <component id="15dc7" class="javax.swing.JButton" binding="relatorioButton" default-binding="true">
@@ -108,22 +108,6 @@
           </component>
         </children>
       </scrollpane>
-      <component id="b475e" class="javax.swing.JButton" binding="cadastrarNovoDronePessoalButton" default-binding="true">
-        <constraints>
-          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Cadastrar novo Drone Pessoal"/>
-        </properties>
-      </component>
-      <component id="11172" class="javax.swing.JButton" binding="cadastrarNovoDroneDeCargaButton">
-        <constraints>
-          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Cadastrar novo Drone de Carga"/>
-        </properties>
-      </component>
       <component id="4b3ad" class="javax.swing.JButton" binding="alterarStatusButton" default-binding="true">
         <constraints>
           <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -144,6 +128,14 @@
         </constraints>
         <properties>
           <text value="Comandos"/>
+        </properties>
+      </component>
+      <component id="11172" class="javax.swing.JButton" binding="cadastrarNovoDroneButton">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Cadastrar novo Drone"/>
         </properties>
       </component>
     </children>
