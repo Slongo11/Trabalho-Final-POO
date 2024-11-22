@@ -36,21 +36,24 @@ public abstract class Transporte implements Armazenavel {
 	 * da longitude e latitude inicial e final forneciada</p>
 	 * @return a quilometragem referente as informacoes
 	 */
-	public double calculaKm(){
-		var r = 6371; // Raio da terra em km
-		var dLat = deg2rad(latitudeDestino-latitudeOrigem);
-		var dLon = deg2rad(longitudeDestino-longitudeOrigem);
-		var a =
-				Math.sin(dLat/2) * Math.sin(dLat/2) +
-						Math.cos(deg2rad(latitudeOrigem)) * Math.cos(deg2rad(latitudeDestino)) *
-								Math.sin(dLon/2) * Math.sin(dLon/2)
-				;
-		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-		var d = r * c; // Distancia em km
+	public double calculaKm() {
+		var r = 6371; // Raio da Terra em km
+		var dLat = deg2rad(latitudeDestino - latitudeOrigem);
+
+		// Ajuste para considerar o menor trajeto pela longitude
+		var dLon = longitudeDestino - longitudeOrigem;
+		if (Math.abs(dLon) > 180) {
+			dLon = 360 - Math.abs(dLon);
+			dLon *= (dLon < 0) ? -1 : 1; // Preserva o sinal correto
+		}
+		dLon = deg2rad(dLon);
+
+		var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.cos(deg2rad(latitudeOrigem)) * Math.cos(deg2rad(latitudeDestino)) *
+						Math.sin(dLon / 2) * Math.sin(dLon / 2);
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		var d = r * c; // Distância em km
 		return d;
-	}
-	public Drone getDrone() {
-		return drone;
 	}
 
 	/**
@@ -61,6 +64,13 @@ public abstract class Transporte implements Armazenavel {
 	private double deg2rad(double deg) {
 		return deg * Math.PI / 180.0;
 	}
+
+
+	public Drone getDrone() {
+		return drone;
+	}
+
+	
 
 	public int getNumero() {
 		return numero;
