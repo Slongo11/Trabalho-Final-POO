@@ -281,9 +281,11 @@ public class ACMEAirDrones {
 				if(d == null)
 					return "Nenhum drone encontrado.";
 				t.adicionaDrone(d);
+				d.addTransporte(t);
 			} else{
 				t.atualizaStatus(atulizar);
 			}
+
 			return "Status atualizado para: " + atulizar.toString();
 		}
 		if(estado == Estado.ALOCADO && atulizar != Estado.ALOCADO){
@@ -304,6 +306,7 @@ public class ACMEAirDrones {
 			t.atualizaStatus(atulizar);
 			if(d != null){
 				t.setDrone(d);
+				d.addTransporte(t);
 			}
 		}
 	}

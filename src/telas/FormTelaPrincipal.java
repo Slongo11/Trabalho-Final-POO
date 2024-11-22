@@ -26,6 +26,7 @@ public class FormTelaPrincipal implements ActionListener {
 	private JButton alterarStatusButton;
 	private JComboBox<Estado> comboBox1;
 	private JButton comandos;
+	private JButton relatorioTransporteButton;
 	private ACMEAirDrones app;
 
 	public FormTelaPrincipal(ACMEAirDrones app) {
@@ -44,6 +45,7 @@ public class FormTelaPrincipal implements ActionListener {
 		processarButton.addActionListener(this);
 		alterarStatusButton.addActionListener(this);
 		comandos.addActionListener(this);
+		relatorioTransporteButton.addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -85,6 +87,8 @@ public class FormTelaPrincipal implements ActionListener {
 				textArea1.setText(app.alteraSituacaoTrasporte(t,estado));
 			}else if(e.getSource() == comandos){
 				TelaComandos tela = new TelaComandos(app);
+			}else if(e.getSource() == relatorioTransporteButton){
+				textArea1.setText(app.mostraInfoTransporte());
 			}
 		}catch (NumberFormatException e1) {
 			JOptionPane.showMessageDialog(painel,

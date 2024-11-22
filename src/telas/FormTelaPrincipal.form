@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="telas.FormTelaPrincipal">
-  <grid id="27dc6" binding="painel" layout-manager="GridLayoutManager" row-count="8" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="painel" layout-manager="GridLayoutManager" row-count="11" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="83" y="20" width="758" height="552"/>
@@ -18,7 +18,7 @@
       </component>
       <component id="8b91b" class="javax.swing.JButton" binding="finalizarButton" default-binding="true">
         <constraints>
-          <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="10" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Finalizar"/>
@@ -69,17 +69,9 @@
           <text value="&lt;html&gt;&lt;h1&gt;Cadastros&lt;/h1&gt;&lt;/html&gt;"/>
         </properties>
       </component>
-      <component id="15dc7" class="javax.swing.JButton" binding="relatorioButton" default-binding="true">
-        <constraints>
-          <grid row="4" column="3" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Relatorio"/>
-        </properties>
-      </component>
       <component id="fda60" class="javax.swing.JButton" binding="limparButton1" default-binding="true">
         <constraints>
-          <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Limpar"/>
@@ -87,7 +79,7 @@
       </component>
       <component id="c1bc1" class="javax.swing.JButton" binding="processarButton" default-binding="true">
         <constraints>
-          <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Processar"/>
@@ -95,7 +87,7 @@
       </component>
       <scrollpane id="46682" binding="resultado">
         <constraints>
-          <grid row="2" column="1" row-span="5" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="1" row-span="8" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -103,6 +95,7 @@
           <component id="f99e5" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
             <constraints/>
             <properties>
+              <editable value="false"/>
               <text value=""/>
             </properties>
           </component>
@@ -124,7 +117,7 @@
       </component>
       <component id="4ca2b" class="javax.swing.JButton" binding="comandos">
         <constraints>
-          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Comandos"/>
@@ -132,10 +125,26 @@
       </component>
       <component id="11172" class="javax.swing.JButton" binding="cadastrarNovoDroneButton">
         <constraints>
-          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="0" row-span="4" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Cadastrar novo Drone"/>
+        </properties>
+      </component>
+      <component id="15dc7" class="javax.swing.JButton" binding="relatorioButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="3" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Relatorio Geral"/>
+        </properties>
+      </component>
+      <component id="e9feb" class="javax.swing.JButton" binding="relatorioTransporteButton" default-binding="true">
+        <constraints>
+          <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Relatorio Transporte"/>
         </properties>
       </component>
     </children>
