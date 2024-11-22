@@ -88,24 +88,57 @@ public class ACMEAirDrones {
 				if(pessoas < 1)
 					throw new NumberFormatException();
 				t = new TransportePessoal(codigoCarga,nomeCliente,descricao,peso,latitideOrigem,latitideDestino,longitudeOrigem,longitudeDestino,pessoas);
-				if(listaTransporte.cadastraTransporte(t))
-					return "Cadastrado com sucesso!";
+				if(listaTransporte.cadastraTransporte(t)) {
+					if(informacoes.size()>10){
+						String numD = informacoes.get(10);
+						info = informacoes.get(11);
 
+						Estado estado;
+						Drone d = frota.buscaDrone(Integer.parseInt(numD));
+						if (Estado.PENDENTE.toString().equals(info)) {
+							estado = Estado.PENDENTE;
+						} else if (Estado.ALOCADO.toString().equals(info)) {
+							estado = Estado.ALOCADO;
+						} else if (Estado.TERMINADO.toString().equals(info)) {
+							estado = Estado.TERMINADO;
+						} else {
+							estado = Estado.CANCELADO;
+						}
+						alteraSituacaoTrasporte(t, estado, d);
+					}
+
+					return "Cadastrado com sucesso!";
+				}
 				return "Nada a ser cadastrado.";
 			}
 
 			// cadastro de carga inanimada
 			if(codigo==2){
-				boolean perigosa;
-				if(informacoes.size() > 10){
-					info = informacoes.get(12);
-					perigosa = info.equals("perigosa");
-				}else{
-					info = informacoes.get(9);
-					perigosa = info.equals("true") ;
+				boolean perigosa = false;
+				info = informacoes.get(9);
+				if(info.equals("perigosa") || info.equals("true")){
+					perigosa = true;
 				}
 				t = new TransporteCargaInanimada(codigoCarga,nomeCliente,descricao,peso,latitideOrigem,latitideDestino,longitudeOrigem,longitudeDestino,perigosa);
 				if(listaTransporte.cadastraTransporte(t)) {
+					if(informacoes.size() > 10) {
+						String numD = informacoes.get(10);
+						info = informacoes.get(11);
+
+						Estado estado;
+						Drone d = frota.buscaDrone(Integer.parseInt(numD));
+						if (Estado.PENDENTE.toString().equals(info)) {
+							estado = Estado.PENDENTE;
+						} else if (Estado.ALOCADO.toString().equals(info)) {
+							estado = Estado.ALOCADO;
+						} else if (Estado.TERMINADO.toString().equals(info)) {
+							estado = Estado.TERMINADO;
+						} else {
+							estado = Estado.CANCELADO;
+						}
+						alteraSituacaoTrasporte(t, estado, d);
+					}
+
 					return "Cadastrado com sucesso!";
 				}
 				return "Nada a ser cadastrado.";
@@ -114,22 +147,35 @@ public class ACMEAirDrones {
 			if(codigo==3){
 				double min;
 				double max;
-				if(informacoes.size() > 11) {
-					info = informacoes.get(10);
-					min = Double.parseDouble(info);
-					info = informacoes.get(11);
-					max = Double.parseDouble(info);
-				}else {
-					info = informacoes.get(9);
-					min = Double.parseDouble(info);
-					info = informacoes.get(10);
-					max = Double.parseDouble(info);
-				}
+
+				info = informacoes.get(9);
+				min = Double.parseDouble(info);
+				info = informacoes.get(10);
+				max = Double.parseDouble(info);
+
 				if(min>max)
 					throw new Exception("Graus mínimos maiores que graus máximos.");
 				t = new TransporteCargaViva(codigoCarga,nomeCliente,descricao,peso,latitideOrigem,latitideDestino,longitudeOrigem,longitudeDestino,min,max);
-				if(listaTransporte.cadastraTransporte(t))
+				if(listaTransporte.cadastraTransporte(t)){
+						if(informacoes.size()>11){
+						String numD = informacoes.get(11);
+						info = informacoes.get(12);
+						Estado estado;
+						Drone d = frota.buscaDrone(Integer.parseInt(numD));
+						if(Estado.PENDENTE.toString().equals(info)) {
+							estado = Estado.PENDENTE;
+						}else if(Estado.ALOCADO.toString().equals(info)){
+							estado = Estado.ALOCADO;
+						}else if(Estado.TERMINADO.toString().equals(info)){
+							estado = Estado.TERMINADO;
+						}else{
+							estado = Estado.CANCELADO;
+						}
+						alteraSituacaoTrasporte(t,estado,d);
+					}
 					return "Cadastrado com sucesso!";
+				}
+
 
 				return "Nada a ser cadastrado.";
 			}
@@ -213,7 +259,7 @@ public class ACMEAirDrones {
 			throw new Exception("Transporte não encontrado");
 		}
 		Estado estado = t.getSituacao();
-		if(estado == Estado.PENDENTE && atulizar != Estado.PENDENTE){
+		if(estado == Estado.PENDENTE && atulizar != Estado.PENDENTE && atulizar != Estado.TERMINADO){
 			if(atulizar == Estado.ALOCADO){
 				Drone d;
 				if(t instanceof TransportePessoal) {
@@ -236,6 +282,21 @@ public class ACMEAirDrones {
 			return"Atualizado com sucesso para: " + atulizar.toString();
 		}
 		throw new Exception("Não pode ser alterado com este situacao ["+ atulizar.toString() + "] logo que é " + estado.toString());
+	}
+
+	/**
+	 * <p>Adicona os drones os transportes que antes possuiam e o ou o status</p>
+	 * @param t transporte a ser adicionado o drone
+	 * @param atulizar qual estado precisa ser adicionado
+	 * @param d o drone ou null caso nao tenha
+	 */
+	private void alteraSituacaoTrasporte(Transporte t, Estado atulizar,Drone d){
+		if(t != null){
+			t.atualizaStatus(atulizar);
+			if(d != null){
+				t.setDrone(d);
+			}
+		}
 	}
 
 	/**
@@ -356,8 +417,8 @@ public class ACMEAirDrones {
 		Path path = Paths.get(local1);
 		try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path, Charset.defaultCharset())))
 		{
-			writer.print(listaTransporte.getCsvFormat());
-			writer.println("-1\n" + frota.getCsvFormat());
+			writer.println( frota.getCsvFormat());
+			writer.print("-1\n" +listaTransporte.getCsvFormat());
 		}catch(Exception e){
 			System.err.println(e);
 			System.err.println("Erro ao escrever o arquivo");
@@ -387,10 +448,10 @@ public class ACMEAirDrones {
 						verifica = true;
 					}
 					if(!verifica) {
-						leInfoTransporte(info);
+						leInfoDrone(info);
 					}else{
 						if(!info.getFirst().equals("-1"))
-							leInfoDrone(info);
+							leInfoTransporte(info);
 					}
 						info.clear();
 				}

@@ -87,6 +87,9 @@ public abstract class Transporte implements Armazenavel {
 		return situacao;
 	}
 
+	public void setDrone(Drone drone){
+		this.drone = drone;
+	}
 	/**
 	 * <p>Adiciona o drone que vai fazer o pedido</p>
 	 * @param drone a ser alocado

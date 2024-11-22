@@ -24,7 +24,7 @@ public class TransporteCargaViva extends Transporte {
 	}
 	@Override
 	public String geraArmazenavel(){
-		return String.format("3;%s;%s;%s\n",super.geraArmazenavel(),temperaturaMinima,temperaturaMaxima);
+		return String.format("3;%s;%s;%s;%s;%s\n",super.geraArmazenavel(),temperaturaMinima,temperaturaMaxima,getDrone().getCodigo(),getSituacao());
 	}
 
 	@Override

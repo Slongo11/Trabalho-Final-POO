@@ -74,6 +74,7 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == salvar) {
 			ArrayList<String> info = new ArrayList<>();
+			int tipo = Integer.parseInt(""+((String)campo1.getSelectedItem()).charAt(0));
 			info.add(""+((String)campo1.getSelectedItem()).charAt(0));
 			info.add(campo2.getText());
 			info.add(campo3.getText());
@@ -83,10 +84,16 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 			info.add(campo8.getText());
 			info.add(campo7.getText());
 			info.add(campo9.getText());
-			info.add(campo10.getText());
-			info.add(campo11.getText());
-			info.add(campo12.getText());
-			info.add((String)campo13.getSelectedItem());
+			if(tipo == 1){
+				info.add(campo10.getText());
+			}
+			if(tipo == 3){
+				info.add(campo11.getText());
+				info.add(campo12.getText());
+			}
+			if(tipo == 2) {
+				info.add((String) campo13.getSelectedItem());
+			}
 			try {
 				String informacao = app.leInfoTransporte(info);
 				resultado.setText(informacao);

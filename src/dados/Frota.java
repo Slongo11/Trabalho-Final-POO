@@ -7,6 +7,7 @@ public class Frota implements Agrupavel{
 	public Frota() {
 		drones = new ArrayList<>();
 	}
+
 	/**
 	 * <p>Adiciona drones</p>
 	 * @param drone o drone
@@ -21,6 +22,18 @@ public class Frota implements Agrupavel{
 		drones.add(drone);
 		this.sort();
 		return true;
+	}
+
+	/**
+	 * <p>Procura o drone por meio do codigo</p>
+	 * @param codigo do drone as ser procurado
+	 * @return o drone com o codigo
+	 */
+	public Drone buscaDrone(int codigo) {
+		return drones.stream()
+				.filter(d -> d.getCodigo() == codigo)
+				.findFirst()
+				.orElse(null);
 	}
 
 	private void sort() {
