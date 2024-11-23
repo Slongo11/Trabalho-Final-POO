@@ -1,7 +1,7 @@
 package dados;
 
 public enum Estado {
-	PENDENTE(1,"Pendente"),ALOCADO(2, "Alocado"), TERMINADO(3,"Finalizado"),
+	PENDENTE(1,"Pendente"),ALOCADO(2, "Alocado"), TERMINADO(3,"Terminado"),
 	CANCELADO(4,"Cancelado");
 
 	private final int codigo;

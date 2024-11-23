@@ -17,11 +17,10 @@ public class ListaTransporte implements Agrupavel {
 	 * <p>Cadastra um transporte </p>
 	 *  @param t transporte a ser cadastrado
 	 * 	@return verdadeiro se for bem sucedido
-	 * @throws Exception que não foi possível cadastrar
 	 */
-	public boolean cadastraTransporte(Transporte t) throws Exception{
+	public boolean cadastraTransporte(Transporte t){
 		if(!(listaTransporte.stream().allMatch(n -> n.getNumero() != t.getNumero()))) {
-			throw new Exception("Não foi possivel cadastrar o transporte código repetido.");
+			return false;
 		}
 		filaDeTransporte.add(t);
 		listaTransporte.add(t);

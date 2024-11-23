@@ -3,13 +3,12 @@ package telas;
 import aplicacao.ACMEAirDrones;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
-public class TelaCadastroDroneCarga extends JDialog {
-	private FormCadastroDroneCarga formCadastroCarga;
-	public TelaCadastroDroneCarga(ACMEAirDrones app) {
+public class TelaCadastroDrone extends JDialog {
+	private FormCadastroDrone formCadastroCarga;
+	public TelaCadastroDrone(ACMEAirDrones app) {
 		super();
-		formCadastroCarga= new FormCadastroDroneCarga(this,app);
+		formCadastroCarga= new FormCadastroDrone(this,app);
 		this.add(formCadastroCarga.getPainel());
 		setTitle("Cadastro de Drones Carga");
 		setSize(800, 600);

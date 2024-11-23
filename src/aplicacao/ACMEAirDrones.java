@@ -34,7 +34,7 @@ public class ACMEAirDrones {
 	 * @param informacoes lista a ser lida
 	 * @return informacoes do cadastro
 	 */
-	public String leInfoTransporte(List<String> informacoes) throws Exception{
+	private String leInfoTransporte(List<String> informacoes) throws Exception{
 
 			Transporte t;
 			String info = informacoes.get(0);
@@ -196,10 +196,19 @@ public class ACMEAirDrones {
 	/**
 	 * <p>Cadastrar os drones solicitados</p>
 	 * @param d drone a ser cadastradao
-	 * @return verdadeiro quando for cadastrado corretament ou falso caso contrário
+	 * @return verdadeiro quando for cadastrado corretamente ou falso caso contrário
 	 */
 	public boolean cadastrarDrone(Drone d){
 		return frota.adicionarDrone(d);
+	}
+
+	/**
+	 * <p>Cadastra os transportes solicitados</p>
+	 * @param t transporte a ser cadastrado
+	 * @return verdadeiro quando for cadastrado corretamente ou falso caso contrário
+	 */
+	public boolean cadastrarTransporte(Transporte t){
+		return listaTransporte.cadastraTransporte(t);
 	}
 	/**
 	 * <p>Mostra as informacoes da lista de Drones</p>
@@ -355,7 +364,7 @@ public class ACMEAirDrones {
 	 * <p>Faz a leitura dos drones a serem cadastarados</p>
 	 * @param informacoes informacoes de cadastro
 	 */
-	public void leInfoDrone(List<String> informacoes){
+	private void leInfoDrone(List<String> informacoes){
 		//1-Pessoal, 2-Carga inanimada, 3-Carga viva
 		Drone d = null;
 		String info = informacoes.get(0);

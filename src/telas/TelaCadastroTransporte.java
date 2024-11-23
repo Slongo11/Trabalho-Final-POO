@@ -1,6 +1,6 @@
 package telas;
 import aplicacao.ACMEAirDrones;
-import dados.CategoriaCarga;
+import dados.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,7 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 	private JButton fim;
 	private JButton limparArea;
 	//campos da aplicacao
-	private JComboBox campo1;
+	private JComboBox<CategoriaCarga> campo1;
 	private JTextField campo2;
 	private JTextField campo3;
 	private JTextField campo4;
@@ -34,7 +34,7 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 	private JTextField campo10;
 	private JTextField campo11;
 	private JTextField campo12;
-	private JComboBox campo13;
+	private JComboBox<String> campo13;
 	//resultado para o usuário
 	private JTextArea resultado;
 	private JPanel painelEsquerda;
@@ -72,72 +72,155 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == salvar) {
-			ArrayList<String> info = new ArrayList<>();
-			int tipo = Integer.parseInt(""+((String)campo1.getSelectedItem()).charAt(0));
-			info.add(""+((String)campo1.getSelectedItem()).charAt(0));
-			info.add(campo2.getText());
-			info.add(campo3.getText());
-			info.add(campo4.getText());
-			info.add(campo5.getText());
-			info.add(campo6.getText());
-			info.add(campo8.getText());
-			info.add(campo7.getText());
-			info.add(campo9.getText());
-			if(tipo == 1){
-				info.add(campo10.getText());
+		try {
+			if (e.getSource() == salvar) {
+				ArrayList<String> informacoes = new ArrayList<>();
+				int tipo = Integer.parseInt("" + (campo1.getSelectedItem().toString()).charAt(0));
+				informacoes.add("" + ((String) campo1.getSelectedItem().toString()).charAt(0));
+				informacoes.add(campo2.getText());
+				informacoes.add(campo3.getText());
+				informacoes.add(campo4.getText());
+				informacoes.add(campo5.getText());
+				informacoes.add(campo6.getText());
+				informacoes.add(campo8.getText());
+				informacoes.add(campo7.getText());
+				informacoes.add(campo9.getText());
+				if (tipo == 1) {
+					informacoes.add(campo10.getText());
+				}
+				if (tipo == 3) {
+					informacoes.add(campo11.getText());
+					informacoes.add(campo12.getText());
+				}
+				if (tipo == 2) {
+					informacoes.add((String) campo13.getSelectedItem());
+				}
+
+				Transporte t = null;
+				String info = informacoes.get(0);
+				if (!info.matches("[0-9]*")) {
+					throw new Exception("Tipo de carga não informado.");
+				}
+				int codigo = Integer.parseInt(info);
+				info = informacoes.get(1);
+
+				int codigoCarga = Integer.parseInt(info);
+				if(codigoCarga < 0){
+					throw new Exception("Código não pode ser negativo");
+				}
+				info = informacoes.get(2);
+				if (info.isEmpty())
+					throw new Exception("Nome do cliente não informado.");
+				String nomeCliente = info;
+
+				info = informacoes.get(3);
+				if (info.isEmpty())
+					throw new Exception("Descrição não informada.");
+				String descricao = info;
+				info = informacoes.get(4);
+				double peso = Double.parseDouble(info);
+
+				info = informacoes.get(5);
+				double latitideOrigem = Double.parseDouble(info);
+
+				info = informacoes.get(6);
+				double longitudeOrigem = Double.parseDouble(info);
+
+				info = informacoes.get(7);
+				double latitideDestino = Double.parseDouble(info);
+
+				info = informacoes.get(8);
+				double longitudeDestino = Double.parseDouble(info);
+
+				if (latitideOrigem > 90 || latitideOrigem < -90)
+					throw new Exception("Valor da latitude deve ser entre -90 e 90.");
+
+				if (latitideDestino > 90 || latitideDestino < -90)
+					throw new Exception("Valor da latitude deve ser entre -90 e 90.");
+
+				if (longitudeOrigem > 180 || longitudeOrigem < -180)
+					throw new Exception("Valor da longitude deve ser entre -180 e 180.");
+
+				if (longitudeDestino > 180 || longitudeDestino < -180)
+					throw new Exception("Valor da longitude deve ser entre -180 e 180.");
+
+				//cadastro de carga de pessoas
+				if (codigo == 1) {
+					info = informacoes.get(9);
+					int pessoas = Integer.parseInt(info);
+					if (pessoas < 1)
+						throw new NumberFormatException();
+					t = new TransportePessoal(codigoCarga, nomeCliente, descricao, peso, latitideOrigem, latitideDestino, longitudeOrigem, longitudeDestino, pessoas);
+				}
+				// cadastro de carga inanimada
+				if (codigo == 2) {
+					boolean perigosa = false;
+					info = informacoes.get(9);
+					if (info.equals("perigosa") || info.equals("true")) {
+						perigosa = true;
+					}
+					t = new TransporteCargaInanimada(codigoCarga, nomeCliente, descricao, peso, latitideOrigem, latitideDestino, longitudeOrigem, longitudeDestino, perigosa);
+				}
+				//cadastro de carga viva
+				if (codigo == 3) {
+					double min;
+					double max;
+
+					info = informacoes.get(9);
+					min = Double.parseDouble(info);
+					info = informacoes.get(10);
+					max = Double.parseDouble(info);
+
+					if (min > max)
+						throw new Exception("Graus mínimos maiores que graus máximos.");
+					t = new TransporteCargaViva(codigoCarga, nomeCliente, descricao, peso, latitideOrigem, latitideDestino, longitudeOrigem, longitudeDestino, min, max);
+
+				}
+				if (t != null) {
+					if (app.cadastrarTransporte(t)) {
+						resultado.setText("Cadastro realizado com sucesso!");
+					} else {
+						throw new Exception("Código repetido não foi possivel cadastrar");
+					}
+				} else {
+					resultado.setText("Erro ao cadastrar informação!");
+				}
+
+			} else if (e.getSource() == limpar) {
+				campo1.setSelectedIndex(0);
+				campo2.setText("");
+				campo3.setText("");
+				campo4.setText("");
+				campo5.setText("");
+				campo6.setText("");
+				campo7.setText("");
+				campo8.setText("");
+				campo9.setText("");
+				campo10.setText("");
+				campo11.setText("");
+				campo12.setText("");
+				campo13.setSelectedIndex(0);
+			} else if (e.getSource() == mostrar) {
+
+				resultado.setText(app.mostraInfoTransporte());
+			} else if (e.getSource() == limparArea) {
+				resultado.setText("");
+			} else if (e.getSource() == fim) {
+				this.setVisible(false);
+			} else if (e.getSource() == campo1) {
+				atualizaCapos();
 			}
-			if(tipo == 3){
-				info.add(campo11.getText());
-				info.add(campo12.getText());
-			}
-			if(tipo == 2) {
-				info.add((String) campo13.getSelectedItem());
-			}
-			try {
-				String informacao = app.leInfoTransporte(info);
-				resultado.setText(informacao);
-			}catch (NumberFormatException e1){
-				JOptionPane.showMessageDialog(painelPrincipal,
-						"Dados numéricos incorretos",
-						"Erro",
-						JOptionPane.ERROR_MESSAGE);
-			}
-			catch (Exception e1) {
+		}catch (NumberFormatException e1){
+			JOptionPane.showMessageDialog(painelPrincipal,
+					"Campo numérico incorreto",
+					"Erro",
+					JOptionPane.ERROR_MESSAGE);
+
+		}catch (Exception e1) {
 			JOptionPane.showMessageDialog(painelPrincipal,
 					e1.getMessage(),
 					"Erro",
 					JOptionPane.ERROR_MESSAGE);
-			}
-
-		}
-		else if (e.getSource() == limpar) {
-			campo1.setSelectedIndex(0);
-			campo2.setText("");
-			campo3.setText("");
-			campo4.setText("");
-			campo5.setText("");
-			campo6.setText("");
-			campo7.setText("");
-			campo8.setText("");
-			campo9.setText("");
-			campo10.setText("");
-			campo11.setText("");
-			campo12.setText("");
-			campo13.setSelectedIndex(0);
-		}
-		else if (e.getSource() == mostrar) {
-
-			resultado.setText(app.mostraInfoTransporte());
-		}
-		else if(e.getSource() == limparArea) {
-			resultado.setText("");
-		}
-		else if (e.getSource() == fim) {
-			this.setVisible(false);
-		}
-		else if (e.getSource() == campo1) {
-			atualizaCapos();
 		}
 	}
 
@@ -145,7 +228,7 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 	 * Atualiza os campos conforme a selecao dos transportes
 	 */
 	public void atualizaCapos(){
-		if(((String)campo1.getSelectedItem()).contains("1")){
+		if(campo1.getSelectedItem().equals(CategoriaCarga.PESSOAS)){
 			painelEsquerda.remove(painelCampo11);
 			painelEsquerda.remove(painelCampo12);
 			painelEsquerda.remove(botoes1);
@@ -154,7 +237,7 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 			revalidate();             // Revalida a janela para atualizar o layout
 			repaint();                // Reapinta a janela
 		}
-		if (((String)campo1.getSelectedItem()).contains("2")){
+		if (campo1.getSelectedItem().equals(CategoriaCarga.CARGA_INANIMADA)){
 			painelEsquerda.remove(painelCampo10);  // remove um dos paineis
 			painelEsquerda.remove(painelCampo11);  // remove um dos paineis
 			painelEsquerda.remove(botoes1);
@@ -163,7 +246,7 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 			revalidate();             // Revalida a janela para atualizar o layout
 			repaint();                // Reapinta a janela
 		}
-		if (((String)campo1.getSelectedItem()).contains("3")){
+		if (campo1.getSelectedItem().equals(CategoriaCarga.CARGA_VIVA)){
 
 			painelEsquerda.remove(painelCampo10);// Remove o painel atual
 			painelEsquerda.remove(painelCampo12);// Remove o painel atual
@@ -173,13 +256,6 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 			painelEsquerda.add(botoes1);
 			revalidate();             // Revalida a janela para atualizar o layout
 			repaint();                // Reapinta a janela
-		}
-		if (((String)campo1.getSelectedItem()).contains("N")){
-			painelEsquerda.remove(painelCampo10);
-			painelEsquerda.remove(painelCampo11);
-			painelEsquerda.remove(painelCampo12);
-			revalidate();
-			repaint();
 		}
 	}
 	/**
@@ -221,8 +297,10 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 
 
 		// campos a srem criados
-		String [] tipoTransporte = {"Nada Selecionado",CategoriaCarga.PESSOAS.toString(),CategoriaCarga.CARGA_INANIMADA.toString(),CategoriaCarga.CARGA_VIVA.toString()};
-		campo1 = new JComboBox(tipoTransporte);
+		campo1 = new JComboBox<>();
+		campo1.addItem(CategoriaCarga.PESSOAS);
+		campo1.addItem(CategoriaCarga.CARGA_INANIMADA);
+		campo1.addItem(CategoriaCarga.CARGA_VIVA);
 		painelCampo1.add(new JLabel("Tipo de carga"));
 		painelCampo1.add(campo1);
 		campo2 = new JTextField(20);
@@ -282,7 +360,7 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 		painelEsquerda.add(painelCampo7);
 		painelEsquerda.add(painelCampo8);
 		painelEsquerda.add(painelCampo9);
-		//painelEsquerda.add(painelCampo10);
+		painelEsquerda.add(painelCampo10);
 
 		botoes1 = new JPanel();
 		botoes1.setLayout(flowEsquerda);

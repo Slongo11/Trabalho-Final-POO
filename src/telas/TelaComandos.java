@@ -11,7 +11,7 @@ public class TelaComandos extends JDialog {
 		FormTelaComandos comando= new FormTelaComandos(this,app);
 		this.add(comando.getPainel());
 		setTitle("Comandos");
-		setSize(800, 200);
+		setSize(800, 500);
 		this.setModal(true);
 		setVisible(true); // torna visivel a tela
 	}
