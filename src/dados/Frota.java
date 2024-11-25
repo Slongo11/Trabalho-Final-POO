@@ -2,7 +2,7 @@ package dados;
 import java.util.*;
 
 public class Frota implements Agrupavel{
-	private ArrayList<Drone> drones;
+	private final ArrayList<Drone> drones;
 
 	public Frota() {
 		drones = new ArrayList<>();
@@ -66,56 +66,19 @@ public class Frota implements Agrupavel{
 		return str.toString();
 	}
 
-	/**
-	 * <p>Copia dos drones a serem usados</p>
-	 * @return a lista de drones
-	 */
-	public ArrayList<Drone> getDrones() {
 
-		return (ArrayList<dados.Drone>) drones.clone();
-	}
-
-	/**
-	 * <p>Mostra todos os drones de Pessoal</p>
-	 * @return informacoes drones de pessoal
-	 */
-	public String listaDronePessoal(){
-		StringBuilder sb = new StringBuilder("===Drone pessoal===");
-		for (Drone d : drones) {
-			if(d instanceof DronePessoal){
-				sb.append(d.toString());
-				sb.append("\n");
-			}
-		}
-		return sb.toString();
-	}
-	/**
-	 * <p>Mostra todos os drones de carga</p>
-	 * @return informacoes drones de carga
-	 */
-	public String listaDronesCarga(){
-		StringBuilder sb = new StringBuilder("===Drone carga===");
-		for (Drone d : drones) {
-			if(d instanceof DroneCarga){
-				sb.append(d.toString());
-				sb.append("\n");
-			}
-		}
-		return sb.toString();
-	}
 	/**
 	 * <p>Procura algum drone capacitado segundo as informacoes mostradas</p>
 	 * @param categoria da carga a ser levada
 	 * @param distancia a ser percorida
 	 * @param pessoa quantidade de pessosas a ser transportada
-	 * @return drone encontrado
-	 * @throws Exception caso a catergora esteja errada
+	 * @return drone encontrado ou null
 	 */
-	public Drone capacitado(CategoriaCarga categoria,double distancia, int pessoa) throws Exception{
+	public Drone capacitado(CategoriaCarga categoria,double distancia, int pessoa){
 		if(categoria == CategoriaCarga.PESSOAS) {
 			return capacitadoDronePessoal(distancia, pessoa);
 		}
-		throw new Exception("Categoria invalida");
+		return null;
 	}
 
 	/**
@@ -123,15 +86,14 @@ public class Frota implements Agrupavel{
 	 * @param categoria da carga a ser levada
 	 * @param distancia a ser percorida
 	 * @return drone encontrado
-	 * @throws Exception caso a catergora esteja errada
 	 */
-	public Drone capacitado(CategoriaCarga categoria,double distancia) throws Exception{
+	public Drone capacitado(CategoriaCarga categoria,double distancia){
 		if(CategoriaCarga.CARGA_VIVA == categoria){
 			return capacitadoDroneCargaViva(distancia);
 		}else if(CategoriaCarga.CARGA_INANIMADA == categoria){
 			return capacitadoDroneCargaInanimada(distancia);
 		}
-		throw new Exception("Categoria invalida");
+		return null;
 	}
 
 	/**
@@ -139,9 +101,8 @@ public class Frota implements Agrupavel{
 	 * @param distancia a distancia a ser percorida
 	 * @param peossas a quantidade de pessoas
 	 * @return o drone
-	 * @exception Exception caso nao encotre nenhum drone
 	 */
-	private Drone capacitadoDronePessoal(double distancia, int peossas) throws Exception{
+	private Drone capacitadoDronePessoal(double distancia, int peossas){
 		for (Drone drone : drones) {
 			if(drone instanceof DronePessoal && drone.getAutonomia() >= distancia && ((DronePessoal)drone).getQtdMaxPessoas() >= peossas){
 				return drone;

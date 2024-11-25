@@ -6,7 +6,6 @@ public abstract class Drone implements Armazenavel{
 	private int codigo;
 	private double custoFixo;
 	private double autonomia;
-	//TODO FAZER O DRONE CONHECER OS TRANSPOTES QUE TEM UM LIGAÇÃO
 	private ArrayList<Transporte> transportes;
 
 	public Drone(int codigo, double custoFixo, double autonomia) {

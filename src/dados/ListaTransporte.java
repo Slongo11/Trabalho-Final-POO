@@ -2,11 +2,10 @@ package dados;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Queue;
 
 public class ListaTransporte implements Agrupavel {
-	private ArrayList<Transporte> listaTransporte;
+	private final ArrayList<Transporte> listaTransporte;
 	private Queue<Transporte> filaDeTransporte;
 	public ListaTransporte() {
 		listaTransporte = new ArrayList<>();
@@ -19,7 +18,7 @@ public class ListaTransporte implements Agrupavel {
 	 * 	@return verdadeiro se for bem sucedido
 	 */
 	public boolean cadastraTransporte(Transporte t){
-		if(!(listaTransporte.stream().allMatch(n -> n.getNumero() != t.getNumero()))) {
+		if(!(listaTransporte.stream().allMatch(n -> n.getCodigo() != t.getCodigo()))) {
 			return false;
 		}
 		filaDeTransporte.add(t);
@@ -49,7 +48,7 @@ public class ListaTransporte implements Agrupavel {
 	 */
 	public Transporte buscaPorNumero(int numero){
 		for(Transporte t : listaTransporte){
-			if(t.getNumero() == numero){
+			if(t.getCodigo() == numero){
 				return t;
 			}
 		}

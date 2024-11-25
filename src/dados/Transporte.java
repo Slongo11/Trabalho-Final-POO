@@ -72,11 +72,7 @@ public abstract class Transporte implements Armazenavel {
 	public int getCodigo(){
 		return numero;
 	}
-	
 
-	public int getNumero() {
-		return numero;
-	}
 
 	/**
 	 * <p>Atualiza o Status do transporte</p>
@@ -86,6 +82,7 @@ public abstract class Transporte implements Armazenavel {
 		if(situacao == Estado.PENDENTE){
 			situacao = status;
 		}
+		//TODO VALIDAR
 		if(situacao == Estado.ALOCADO && status != Estado.PENDENTE){
 			situacao = status;
 		}

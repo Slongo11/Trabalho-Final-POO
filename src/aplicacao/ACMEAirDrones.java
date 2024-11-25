@@ -2,7 +2,6 @@ package aplicacao;
 
 import dados.*;
 import telas.TelaPrincipal;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,12 +31,12 @@ public class ACMEAirDrones {
 	/**
 	 * <p>Le as informacoes do trasnporte validando e cadastrando</p>
 	 * @param informacoes lista a ser lida
-	 * @return informacoes do cadastro
+	 *
 	 */
-	private String leInfoTransporte(List<String> informacoes) throws Exception{
+	private void leInfoTransporte(List<String> informacoes) throws Exception{
 
 			Transporte t;
-			String info = informacoes.get(0);
+			String info = informacoes.getFirst();
 			if(!info.matches("[0-9]*")){
 				throw new Exception("Tipo de carga não informado.");
 			}
@@ -93,26 +92,15 @@ public class ACMEAirDrones {
 						String numD = informacoes.get(10);
 						info = informacoes.get(11);
 
-						Estado estado;
 						Drone d = null;
 						if(!numD.equals("null")){
 							d = frota.buscaDrone(Integer.parseInt(numD));
 						}
-						if (Estado.PENDENTE.toString().equals(info)) {
-							estado = Estado.PENDENTE;
-						} else if (Estado.ALOCADO.toString().equals(info)) {
-							estado = Estado.ALOCADO;
-						} else if (Estado.TERMINADO.toString().equals(info)) {
-							estado = Estado.TERMINADO;
-						} else {
-							estado = Estado.CANCELADO;
-						}
+						Estado estado = indentificaEstado(info);
 						alteraSituacaoTrasporte(t, estado, d);
 					}
 
-					return "Cadastrado com sucesso!";
 				}
-				return "Nada a ser cadastrado.";
 			}
 
 			// cadastro de carga inanimada
@@ -128,26 +116,15 @@ public class ACMEAirDrones {
 						String numD = informacoes.get(10);
 						info = informacoes.get(11);
 
-						Estado estado;
 						Drone d = null;
 						if(!numD.equals("null")){
 							d = frota.buscaDrone(Integer.parseInt(numD));
 						}
-						if (Estado.PENDENTE.toString().equals(info)) {
-							estado = Estado.PENDENTE;
-						} else if (Estado.ALOCADO.toString().equals(info)) {
-							estado = Estado.ALOCADO;
-						} else if (Estado.TERMINADO.toString().equals(info)) {
-							estado = Estado.TERMINADO;
-						} else {
-							estado = Estado.CANCELADO;
-						}
+						Estado estado = indentificaEstado(info);
 						alteraSituacaoTrasporte(t, estado, d);
 					}
 
-					return "Cadastrado com sucesso!";
 				}
-				return "Nada a ser cadastrado.";
 			}
 			//cadastro de carga viva
 			if(codigo==3){
@@ -166,32 +143,38 @@ public class ACMEAirDrones {
 						if(informacoes.size()>11){
 						String numD = informacoes.get(11);
 						info = informacoes.get(12);
-						Estado estado;
+
 						Drone d = null;
 						if(!numD.equals("null")){
 							d = frota.buscaDrone(Integer.parseInt(numD));
 						}
-						if(Estado.PENDENTE.toString().equals(info)) {
-							estado = Estado.PENDENTE;
-						}else if(Estado.ALOCADO.toString().equals(info)){
-							estado = Estado.ALOCADO;
-						}else if(Estado.TERMINADO.toString().equals(info)){
-							estado = Estado.TERMINADO;
-						}else{
-							estado = Estado.CANCELADO;
-						}
+						Estado estado = indentificaEstado(info);
 						alteraSituacaoTrasporte(t,estado,d);
 					}
-					return "Cadastrado com sucesso!";
 				}
-
-
-				return "Nada a ser cadastrado.";
 			}
 
-
-		return "Não foi possivel cadastrar o transporte código repetido";
 	}
+
+	/**
+	 * <p>Identifica os Estados de cada transporte</p>
+	 * @param info o estado a ser averiguado
+	 * @return o estado referente
+	 */
+	private Estado indentificaEstado(String info){
+		Estado estado;
+		if(Estado.PENDENTE.toString().equals(info)) {
+			estado = Estado.PENDENTE;
+		}else if(Estado.ALOCADO.toString().equals(info)){
+			estado = Estado.ALOCADO;
+		}else if(Estado.TERMINADO.toString().equals(info)){
+			estado = Estado.TERMINADO;
+		}else{
+			estado = Estado.CANCELADO;
+		}
+		return estado;
+	}
+
 
 	/**
 	 * <p>Cadastrar os drones solicitados</p>
@@ -219,20 +202,6 @@ public class ACMEAirDrones {
 	}
 
 	/**
-	 * <p>Mostra todos os drones pessoal</p>
-	 * @return informacoes dos drones
-	 */
-	public String mostraInfoDronePessoal(){
-		return frota.listaDronePessoal();
-	}
-	/**
-	 * <p>Mostra todos os drones de carga</p>
-	 * @return informacoes dos drones
-	 */
-	public String mostraInfoDroneCarga(){
-		return frota.listaDronesCarga();
-	}
-	/**
 	 * <p>Mostra as informacoes da lista de transporte</p>
 	 * @return toda lista do transportes cadastrados.
 	 */
@@ -256,13 +225,13 @@ public class ACMEAirDrones {
 	 * @param distancia percorida pelo drone
 	 * @param pessoas caso exista a quantidade
 	 * @return o Drone
-	 * @throws Exception por por informacoes incorretas
+	 *
 	 */
-	public Drone buscaDrone(CategoriaCarga carga,double distancia, int pessoas) throws Exception{
+	private Drone buscaDrone(CategoriaCarga carga,double distancia, int pessoas) {
 		return frota.capacitado(carga, distancia, pessoas);
 	}
 
-	public Drone buscaDrone(CategoriaCarga carga,double distancia) throws Exception{
+	private Drone buscaDrone(CategoriaCarga carga,double distancia){
 		return frota.capacitado(carga, distancia);
 	}
 
@@ -322,7 +291,7 @@ public class ACMEAirDrones {
 
 	/**
 	 * <p>Valida se tem algum transporte pendente</p>
-	 * @return
+	 * @return a lista ordenada
 	 */
 	private Queue<Transporte> validaPendencias(Queue<Transporte> pendencias){
 		Queue<Transporte> retorno = new LinkedList<>();
@@ -345,7 +314,7 @@ public class ACMEAirDrones {
 		if(pendente.isEmpty()){
 			throw new Exception("Não existe nenhum transporte pendente");
 		}
-		Queue<Transporte> novaQueue = new LinkedList();
+		Queue<Transporte> novaQueue = new LinkedList<>();
 
 		while(!pendente.isEmpty()){
 			Transporte transporte = pendente.remove();
@@ -419,7 +388,7 @@ public class ACMEAirDrones {
 	private void simulaCarrega(String local){
 		Path path = Paths.get(local);
 		try(BufferedReader reader = new BufferedReader(Files.newBufferedReader(path, Charset.defaultCharset()))){
-			String linha = null;
+			String linha;
 			List<String> info = new ArrayList<>();
 			while ((linha = reader.readLine()) != null){
 				Scanner sc = new Scanner(linha).useDelimiter(";");
@@ -457,7 +426,6 @@ public class ACMEAirDrones {
 			writer.print( frota.getCsvFormat());
 			writer.println("-1\n" +listaTransporte.getCsvFormat());
 		}catch(Exception e){
-			System.err.println(e);
 			System.err.println("Erro ao escrever o arquivo");
 		}
 
@@ -473,7 +441,7 @@ public class ACMEAirDrones {
 		Path path = Paths.get(local);
 		boolean verifica = false;
 		try(BufferedReader reader = new BufferedReader(Files.newBufferedReader(path, Charset.defaultCharset()))){
-			String linha = null;
+			String linha;
 			while ((linha = reader.readLine()) != null){
 				Scanner sc = new Scanner(linha).useDelimiter(";");
 
