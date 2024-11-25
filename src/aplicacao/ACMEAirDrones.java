@@ -14,9 +14,11 @@ import java.util.*;
 public class ACMEAirDrones {
 	private final ListaTransporte listaTransporte;
 	private final Frota frota;
+	private Queue<String> adicionados;
 	public ACMEAirDrones(){
 		listaTransporte = new ListaTransporte();
 		frota = new Frota();
+		adicionados = new LinkedList<>();
 
 		new TelaPrincipal(this);
 	}
@@ -99,7 +101,7 @@ public class ACMEAirDrones {
 						Estado estado = indentificaEstado(info);
 						alteraSituacaoTrasporte(t, estado, d);
 					}
-
+					adicionados.add(t.toString());
 				}
 			}
 
@@ -123,6 +125,7 @@ public class ACMEAirDrones {
 						Estado estado = indentificaEstado(info);
 						alteraSituacaoTrasporte(t, estado, d);
 					}
+					adicionados.add(t.toString());
 
 				}
 			}
@@ -151,6 +154,7 @@ public class ACMEAirDrones {
 						Estado estado = indentificaEstado(info);
 						alteraSituacaoTrasporte(t,estado,d);
 					}
+					adicionados.add(t.toString());
 				}
 			}
 
@@ -227,11 +231,11 @@ public class ACMEAirDrones {
 	 * @return o Drone
 	 *
 	 */
-	private Drone buscaDrone(CategoriaCarga carga,double distancia, int pessoas) {
+	private Queue<Drone> buscaDrone(CategoriaCarga carga,double distancia, int pessoas) {
 		return frota.capacitado(carga, distancia, pessoas);
 	}
 
-	private Drone buscaDrone(CategoriaCarga carga,double distancia){
+	private Queue<Drone> buscaDrone(CategoriaCarga carga, double distancia){
 		return frota.capacitado(carga, distancia);
 	}
 
@@ -248,7 +252,7 @@ public class ACMEAirDrones {
 		Estado estado = t.getSituacao();
 		if(estado == Estado.PENDENTE && atulizar != Estado.PENDENTE && atulizar != Estado.TERMINADO){
 			if(atulizar == Estado.ALOCADO){
-				Drone d;
+				Queue<Drone> d;
 				if(t instanceof TransportePessoal) {
 					d = buscaDrone(CategoriaCarga.PESSOAS, t.calculaKm(),((TransportePessoal)t).getQtdPessoas());
 				}else if(t instanceof TransporteCargaInanimada) {
@@ -256,10 +260,23 @@ public class ACMEAirDrones {
 				}else{
 					d = buscaDrone(CategoriaCarga.CARGA_VIVA, t.calculaKm());
 				}
-				if(d == null)
+				if(d.isEmpty())
 					return "Nenhum drone encontrado.";
-				t.adicionaDrone(d);
-				d.addTransporte(t);
+
+				Drone d1 =null;
+				while(!d.isEmpty()){
+					 d1 = d.poll();
+					if(d1 != null && !d1.validaTransportesAlocado()){
+						break;
+					}
+					d1 = null;
+				}
+				if(d1 == null)
+					return "Nenhum drone encontrado.";
+
+				t.adicionaDrone(d1);
+				d1.addTransporte(t);
+
 			} else{
 				t.atualizaStatus(atulizar);
 			}
@@ -349,7 +366,6 @@ public class ACMEAirDrones {
 			info = informacoes.get(4);
 			int qtdPessoas = Integer.parseInt(info);
 			d = new DronePessoal(codigo, custo, autonomia, qtdPessoas);
-
 		}else if(tipo == 2){
 
 			info = informacoes.get(4);
@@ -357,6 +373,7 @@ public class ACMEAirDrones {
 			info = informacoes.get(5);
 			boolean protecao = info.equals("true");
 			d = new DroneCargaInanimada(codigo, custo, autonomia, peso, protecao);
+
 
 		}else if(tipo == 3){
 
@@ -367,7 +384,8 @@ public class ACMEAirDrones {
 			d = new DroneCargaViva(codigo,custo, autonomia, peso, protecao);
 
 		}
-		cadastrarDrone(d);
+		if(cadastrarDrone(d))
+			adicionados.add(d.toString());
 
 	}
 
@@ -471,6 +489,21 @@ public class ACMEAirDrones {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * <p>Mostra adicoes nos arquivos carregados </p>>
+	 * @return o que foi adicionado
+	 */
+	public String mostraAdicoes(){
+		StringBuilder sb = new StringBuilder();
+		if(adicionados.isEmpty()){
+			sb.append("Nada a ser adicionado no sistema");
+		}
+		while(!adicionados.isEmpty()){
+			sb.append(adicionados.remove()+"\n");
+		}
+		return sb.toString();
 	}
 
 }

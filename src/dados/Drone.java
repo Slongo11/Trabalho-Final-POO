@@ -29,6 +29,19 @@ public abstract class Drone implements Armazenavel{
 	public double getCustoFixo() {
 		return custoFixo;
 	}
+
+	/**
+	 * <p>Ve se tem algum tranporte pendente em relcao a sua lista</p>
+	 * @return verdadeiro se tiver algum transporte Alocado caso cotrario false
+	 */
+	public boolean validaTransportesAlocado(){
+		for(Transporte transporte: transportes){
+			if(transporte.getSituacao() == Estado.ALOCADO)
+				return true;
+		}
+
+		return false;
+	}
 	@Override
 	public String geraArmazenavel() {
 		return String.format("%s;%s;%s",codigo,custoFixo,autonomia);

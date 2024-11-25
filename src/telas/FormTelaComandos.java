@@ -39,7 +39,7 @@ public class FormTelaComandos implements ActionListener {
 					}else{
 						app.simulaCarrega();
 						textArea1.setText("Comando executado.");
-						textArea1.append("\n" + app.mostraInfoTransporte() + app.mostraInfoDrone());
+						textArea1.append("\n" + app.mostraAdicoes());
 						executado = true;
 					}
 				}
@@ -60,7 +60,7 @@ public class FormTelaComandos implements ActionListener {
 					String local = "arquivos/"+comando+".csv";
 					if(app.carregaConteudo(local)){
 						textArea1.setText("Comando executado.");
-						textArea1.append("\n" + app.mostraInfoTransporte() + app.mostraInfoDrone());
+						textArea1.append("\n" + app.mostraAdicoes());
 					}else{
 						JOptionPane.showMessageDialog(painel,
 								"Problema ao carregar arquivo",

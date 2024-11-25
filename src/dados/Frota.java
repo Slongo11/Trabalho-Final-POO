@@ -74,7 +74,7 @@ public class Frota implements Agrupavel{
 	 * @param pessoa quantidade de pessosas a ser transportada
 	 * @return drone encontrado ou null
 	 */
-	public Drone capacitado(CategoriaCarga categoria,double distancia, int pessoa){
+	public Queue<Drone> capacitado(CategoriaCarga categoria, double distancia, int pessoa){
 		if(categoria == CategoriaCarga.PESSOAS) {
 			return capacitadoDronePessoal(distancia, pessoa);
 		}
@@ -87,7 +87,7 @@ public class Frota implements Agrupavel{
 	 * @param distancia a ser percorida
 	 * @return drone encontrado
 	 */
-	public Drone capacitado(CategoriaCarga categoria,double distancia){
+	public Queue<Drone> capacitado(CategoriaCarga categoria,double distancia){
 		if(CategoriaCarga.CARGA_VIVA == categoria){
 			return capacitadoDroneCargaViva(distancia);
 		}else if(CategoriaCarga.CARGA_INANIMADA == categoria){
@@ -100,43 +100,46 @@ public class Frota implements Agrupavel{
 	 * <p>Pega um drone capacitado em fazer o trabalho de levar pessoas</p>
 	 * @param distancia a distancia a ser percorida
 	 * @param peossas a quantidade de pessoas
-	 * @return o drone
+	 * @return o drones
 	 */
-	private Drone capacitadoDronePessoal(double distancia, int peossas){
+	private Queue<Drone> capacitadoDronePessoal(double distancia, int peossas){
+		Queue<Drone> dronePessal = new LinkedList<>();
 		for (Drone drone : drones) {
 			if(drone instanceof DronePessoal && drone.getAutonomia() >= distancia && ((DronePessoal)drone).getQtdMaxPessoas() >= peossas){
-				return drone;
+				dronePessal.add(drone);
 			}
 		}
-		return null;
+		return dronePessal;
 	}
 
 	/**
 	 * <p>Pega um drone capacitado em fazer o trabalho de levar carga Inanimada</p>
 	 * @param distancia a distancia a ser percorida
-	 * @return o drone
+	 * @return os drones
 	 */
-	private Drone capacitadoDroneCargaInanimada(double distancia){
+	private Queue<Drone> capacitadoDroneCargaInanimada(double distancia){
+		Queue<Drone> droneCarga = new LinkedList<>();
 		for (Drone drone : drones) {
 			if(drone instanceof DroneCargaInanimada && drone.getAutonomia() >= distancia){
-				return drone;
+				droneCarga.add(drone);
 			}
 		}
 
-		return null;
+		return droneCarga;
 	}
 	/**
 	 * <p>Pega um drone capacitado em fazer o trabalho de levar pessoas</p>
 	 * @param distancia a distancia a ser percorida
 	 * @return o drone
 	 */
-	private Drone capacitadoDroneCargaViva(double distancia) {
+	private Queue<Drone> capacitadoDroneCargaViva(double distancia) {
+		Queue<Drone> droneCarga = new LinkedList<>();
 		for (Drone drone : drones) {
 			if(drone instanceof DroneCargaViva && drone.getAutonomia() >= distancia){
-				return drone;
+				droneCarga.add(drone);
 			}
 		}
-		return null;
+		return droneCarga;
 	}
 
 	@Override
