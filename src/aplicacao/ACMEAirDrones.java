@@ -26,7 +26,7 @@ public class ACMEAirDrones {
 	 * <p>Executa a aplicacao</p>
 	 */
 	public void executar(){
-		carregaConteudo("arquivos/salva.csv");
+
 	}
 
 	/**

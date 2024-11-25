@@ -75,8 +75,8 @@ public class TelaCadastroTransporte extends JDialog implements ActionListener {
 		try {
 			if (e.getSource() == salvar) {
 				ArrayList<String> informacoes = new ArrayList<>();
-				int tipo = Integer.parseInt("" + (campo1.getSelectedItem().toString()).charAt(0));
-				informacoes.add("" + ((String) campo1.getSelectedItem().toString()).charAt(0));
+				int tipo = Integer.parseInt("" + ((CategoriaCarga)campo1.getSelectedItem()).getCodigo());
+				informacoes.add("" + ((CategoriaCarga)campo1.getSelectedItem()).getCodigo());
 				informacoes.add(campo2.getText());
 				informacoes.add(campo3.getText());
 				informacoes.add(campo4.getText());
