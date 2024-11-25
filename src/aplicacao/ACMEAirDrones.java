@@ -310,7 +310,7 @@ public class ACMEAirDrones {
 	 */
 	public void processaTransportesPendentes() throws Exception{
 		Queue<Transporte> pendente =  listaTransporte.getFilaDeTransporte();
-		pendente = validaPendencias(pendente);
+		pendente.addAll(validaPendencias(pendente));
 		if(pendente.isEmpty()){
 			throw new Exception("Não existe nenhum transporte pendente");
 		}
