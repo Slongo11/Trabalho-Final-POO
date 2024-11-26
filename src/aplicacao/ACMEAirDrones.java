@@ -18,7 +18,7 @@ public class ACMEAirDrones {
 	public ACMEAirDrones(){
 		listaTransporte = new ListaTransporte();
 		frota = new Frota();
-		adicionados = new LinkedList<>();
+		adicionados = new LinkedList();
 
 		new TelaPrincipal(this);
 	}
@@ -102,6 +102,8 @@ public class ACMEAirDrones {
 						alteraSituacaoTrasporte(t, estado, d);
 					}
 					adicionados.add(t.toString());
+				}else {
+					adicionados.add("Transporte com o numero: "+t.getCodigo()+ " ja adicionado" );
 				}
 			}
 
@@ -127,6 +129,8 @@ public class ACMEAirDrones {
 					}
 					adicionados.add(t.toString());
 
+				}else {
+					adicionados.add("Transporte com o numero: "+t.getCodigo()+ " ja adicionado" );
 				}
 			}
 			//cadastro de carga viva
@@ -155,8 +159,11 @@ public class ACMEAirDrones {
 						alteraSituacaoTrasporte(t,estado,d);
 					}
 					adicionados.add(t.toString());
+				}else {
+					adicionados.add("Transporte com o numero: "+t.getCodigo()+ " ja adicionado" );
 				}
 			}
+
 
 	}
 
@@ -392,6 +399,9 @@ public class ACMEAirDrones {
 		}
 		if(cadastrarDrone(d))
 			adicionados.add(d.toString());
+		else {
+			adicionados.add("Drone com o numero: "+d.getCodigo()+ " ja adicionado" );
+		}
 
 	}
 
@@ -461,6 +471,7 @@ public class ACMEAirDrones {
 	 * @return caso bem sucedido verdadeiro ou falso quando não encotra o arquivo
 	 */
 	public boolean carregaConteudo(String local){
+		adicionados.clear();
 		List<String> info = new ArrayList<>();
 		Path path = Paths.get(local);
 		boolean verifica = false;

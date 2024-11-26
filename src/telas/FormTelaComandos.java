@@ -31,12 +31,18 @@ public class FormTelaComandos implements ActionListener {
 				String comando = textField1.getText();
 
 				if (comando.equalsIgnoreCase("SIMULA")) {
-					if(executado){
+					if(salvarEmArquivoCheckBox.isSelected()) {
+						JOptionPane.showMessageDialog(painel,
+								"Não pode ser salvo com o comando simula",
+								"Aviso",
+								JOptionPane.WARNING_MESSAGE);
+					}else if(executado){
 						JOptionPane.showMessageDialog(painel,
 								"Comando ja executado",
 								"Aviso",
 								JOptionPane.WARNING_MESSAGE);
-					}else{
+					}
+						else{
 						app.simulaCarrega();
 						textArea1.setText("Comando executado.");
 						textArea1.append("\n" + app.mostraAdicoes());
