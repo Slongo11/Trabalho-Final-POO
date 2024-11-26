@@ -9,7 +9,9 @@ public class DroneCargaInanimada extends DroneCarga {
 		this.protecao = protecao;
 	}
 
-
+	public boolean eProtegido() {
+		return protecao;
+	}
 	@Override
 	public double calculaCustoKm() {
 		return getCustoFixo() + (protecao ? 10:5);

@@ -227,7 +227,7 @@ public class ACMEAirDrones {
 	 * <p>Busca o drone de com os parametros especifidoas da carga </p>
 	 * @param carga tipo a ser buscado
 	 * @param distancia percorida pelo drone
-	 * @param pessoas caso exista a quantidade
+	 * @param pessoas a ser pesquisada
 	 * @return o Drone
 	 *
 	 */
@@ -235,10 +235,16 @@ public class ACMEAirDrones {
 		return frota.capacitado(carga, distancia, pessoas);
 	}
 
-	private Queue<Drone> buscaDrone(CategoriaCarga carga, double distancia){
-		return frota.capacitado(carga, distancia);
+	/**
+	 * <p>Busca o drone de com os parametros especifidoas da carga </p>
+	 * 	 @param carga tipo a ser buscado
+	 * 	 @param distancia percorida pelo drone
+	 * 	 @param especial caso exista a necessidade
+	 * 	 @return os Drones
+	 */
+	private Queue<Drone> buscaDrone(CategoriaCarga carga, double distancia, boolean especial){
+		return frota.capacitado(carga, distancia,especial);
 	}
-
 	/**
 	 * <p>Altera a situacao de um unico Transporte </p>
 	 * @param t o transporte a ser alterado
@@ -256,9 +262,9 @@ public class ACMEAirDrones {
 				if(t instanceof TransportePessoal) {
 					d = buscaDrone(CategoriaCarga.PESSOAS, t.calculaKm(),((TransportePessoal)t).getQtdPessoas());
 				}else if(t instanceof TransporteCargaInanimada) {
-					d = buscaDrone(CategoriaCarga.CARGA_INANIMADA, t.calculaKm());
+					d = buscaDrone(CategoriaCarga.CARGA_INANIMADA, t.calculaKm(),((TransporteCargaInanimada) t).eCargaPerigosa());
 				}else{
-					d = buscaDrone(CategoriaCarga.CARGA_VIVA, t.calculaKm());
+					d = buscaDrone(CategoriaCarga.CARGA_VIVA, t.calculaKm(),false);
 				}
 				if(d.isEmpty())
 					return "Nenhum drone encontrado.";

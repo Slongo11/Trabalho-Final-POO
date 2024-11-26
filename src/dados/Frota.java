@@ -87,14 +87,15 @@ public class Frota implements Agrupavel{
 	 * @param distancia a ser percorida
 	 * @return drone encontrado
 	 */
-	public Queue<Drone> capacitado(CategoriaCarga categoria,double distancia){
+	public Queue<Drone> capacitado(CategoriaCarga categoria,double distancia, boolean especial){
 		if(CategoriaCarga.CARGA_VIVA == categoria){
 			return capacitadoDroneCargaViva(distancia);
 		}else if(CategoriaCarga.CARGA_INANIMADA == categoria){
-			return capacitadoDroneCargaInanimada(distancia);
+			return capacitadoDroneCargaInanimada(distancia, especial);
 		}
 		return null;
 	}
+
 
 	/**
 	 * <p>Pega um drone capacitado em fazer o trabalho de levar pessoas</p>
@@ -117,11 +118,15 @@ public class Frota implements Agrupavel{
 	 * @param distancia a distancia a ser percorida
 	 * @return os drones
 	 */
-	private Queue<Drone> capacitadoDroneCargaInanimada(double distancia){
+	private Queue<Drone> capacitadoDroneCargaInanimada(double distancia, boolean especial){
 		Queue<Drone> droneCarga = new LinkedList<>();
 		for (Drone drone : drones) {
 			if(drone instanceof DroneCargaInanimada && drone.getAutonomia() >= distancia){
-				droneCarga.add(drone);
+				if(especial && ((DroneCargaInanimada)drone).eProtegido()) {
+					droneCarga.add(drone);
+				}else if(!especial){
+					droneCarga.add(drone);
+				}
 			}
 		}
 
@@ -136,7 +141,7 @@ public class Frota implements Agrupavel{
 		Queue<Drone> droneCarga = new LinkedList<>();
 		for (Drone drone : drones) {
 			if(drone instanceof DroneCargaViva && drone.getAutonomia() >= distancia){
-				droneCarga.add(drone);
+					droneCarga.add(drone);
 			}
 		}
 		return droneCarga;
